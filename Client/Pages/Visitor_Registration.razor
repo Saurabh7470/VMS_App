@@ -2,139 +2,150 @@
 @using System.Text.RegularExpressions
 @using VMS_App.Shared.Models
 
-<MudText Typo="Typo.h5" Color="Color.Default" Class="align-content-center"><b>Visitorn Registration</b></MudText>
-<MudPaper Elevation="4" Outlined>
-    <MudForm @ref="form">
-        <MudGrid Spacing="2" Justify="Justify.Center">
-            <MudItem xs="12" sm="12" md="6" lg="6">
-                <MudStack Spacing="2" Class="m-2">
-                    <span>Name</span>
-                    <MudTextField @bind-Value="visitormaster.Name" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Enter Full Name"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="12" sm="12" md="6" lg="6">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>Date Of Birth</span>
-                     <MudTextField @bind-Value="visitormaster.DOB" InputType="InputType.Date" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Select An Specific Date"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="12" sm="12" md="6" lg="6">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>Contact Number</span>
-                     <MudTextField @bind-Value="visitormaster.MobileNumber" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Enter Full Name"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="12" sm="12" md="6" lg="6">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>Email Id</span>
-                     <MudTextField @bind-Value="visitormaster.Email" Margin="Margin.Dense" Variant="Variant.Outlined" Validation="@ValidateEmail" Required RequiredError="Please Enter Email Address" ErrorText="Please Enter Correct Email Address"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="12" sm="12" md="6" lg="6">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>Full Address</span>
-                     <MudTextField @bind-Value="visitormaster.Address" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5" Required RequiredError="Please Enter Your Addresss"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="6" lg="6">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>City</span>
-                     <MudTextField @bind-Value="visitormaster.City" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter City Name"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="4" lg="4">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>State</span>
-                     <MudTextField @bind-Value="visitormaster.State" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter State Name"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="4" lg="4">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>Country</span>
-                     <MudTextField @bind-Value="visitormaster.Country" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Country"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="4" lg="4">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>PinCode</span>
-                     <MudTextField @bind-Value="visitormaster.PinCode" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Your Pincode"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="12" sm="12" md="4" lg="4">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>Organigation</span>
-                     <MudTextField @bind-Value="visitormaster.Company" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Name Of Organigation"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="4" lg="4">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>ID Type</span>
-                     <MudSelect @bind-Value="visitormaster.Id_type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
-                      <MudSelectItem Value="@("Aadhar Card")" />
-                      <MudSelectItem Value="@("Driving Licence")" />
-                      <MudSelectItem Value="@("Voter ID")" />
-                      <MudSelectItem Value="@("Pan Card")" />
-                     </MudSelect>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="4" lg="4">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>ID Number</span>
-                     <MudTextField @bind-Value="visitormaster.Personal_id" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="4" lg="4">
-                 <MudStack Spacing="2" Class="m-2">
-                     <span>Uploda Documnent Image</span>
-                     <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
-                         <ButtonTemplate>
-                             <MudButton HtmlTag="label" Size="Size.Small"
-                                        Variant="Variant.Filled"
-                                        @bind-value="visitormaster.personall_file"
-                                        Color="Color.Primary"
-                                        StartIcon="@Icons.Material.Filled.CloudUpload"
-                                        for="@context.Id">
-                                 Upload Documnet
-                             </MudButton>
-                         </ButtonTemplate>
-                     </MudFileUpload>
-                 </MudStack>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="4" lg="4">
-                 <span>Uploda Your Photograph</span>
+<MudCard Elevation="4" Outlined Class="mt-5">
+    <MudCardContent>
+         <MudText Typo="Typo.h5" Color="Color.Default" Style="text-align:center; font-family:Arial">Visitor Registration</MudText>
+         <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5" />
+         <MudForm @ref="form">
+             <MudGrid Spacing="2">
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Name</span>
+                         <MudTextField @bind-Value="visitormaster.Name" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Enter Full Name"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Date Of Birth</span>
+                         <MudTextField @bind-Value="visitormaster.DBO" InputType="InputType.Date" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Select An Specific Date"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Contact Number</span>
+                         <MudTextField @bind-Value="visitormaster.MobileNo" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Enter Full Name"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Email Id</span>
+                         <MudTextField @bind-Value="visitormaster.Email" Margin="Margin.Dense" Variant="Variant.Outlined" Validation="@ValidateEmail" Required RequiredError="Please Enter Email Address" ErrorText="Please Enter Correct Email Address"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="6" lg="6">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Organigation</span>
+                         <MudTextField @bind-Value="visitormaster.Company" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Name Of Organigation"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="6" lg="6">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Full Address</span>
+                         <MudTextField @bind-Value="visitormaster.Address" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5" Required RequiredError="Please Enter Your Addresss"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>City</span>
+                         <MudTextField @bind-Value="visitormaster.City" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter City Name"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>State</span>
+                         <MudTextField @bind-Value="visitormaster.State" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter State Name"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Country</span>
+                         <MudTextField @bind-Value="visitormaster.Country" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Country"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="8" sm="8" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>PinCode</span>
+                         <MudTextField @bind-Value="visitormaster.Pincode" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Your Pincode"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>ID Type</span>
+                         <MudSelect @bind-Value="visitormaster.Id_Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
+                             <MudSelectItem Value="@("Aadhar Card")" />
+                             <MudSelectItem Value="@("Driving Licence")" />
+                             <MudSelectItem Value="@("Voter ID")" />
+                             <MudSelectItem Value="@("Pan Card")" />
+                         </MudSelect>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>ID Number</span>
+                         <MudTextField @bind-Value="visitormaster.Personal_Id" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="6" lg="6">
+                     <MudStack Spacing="2" Class="m-2">
+                         <span>Uploda Documnent Image</span>
+                         <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+                             <ButtonTemplate>
+                                 <MudButton HtmlTag="label" Size="Size.Small"
+                                            Variant="Variant.Filled"
+                                            @bind-value="visitormaster.PersonalId_File"
+                                            Color="Color.Primary"
+                                            StartIcon="@Icons.Material.Filled.CloudUpload"
+                                            for="@context.Id">
+                                     Upload Documnet
+                                 </MudButton>
+                             </ButtonTemplate>
+                         </MudFileUpload>
 
-                 <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
-                     <ButtonTemplate>
-                         <MudButton HtmlTag="label" Size="Size.Small"
-                                    Variant="Variant.Filled"
-                                    Color="Color.Primary"
-                                    @bind-value="visitormaster.PhotoGraph"
-                                    StartIcon="@Icons.Material.Filled.CloudUpload"
-                                    for="@context.Id">
-                             Upload Image
-                         </MudButton>
-                     </ButtonTemplate>
-                 </MudFileUpload>
-             </MudItem>
-             <MudItem xs="6" sm="6" md="6" lg="6" Class="m-2">
-                 @if (files != null)
-                {
-                    <MudList>
-                        @foreach (var file in files)
-                        {
-                            <MudListItem Icon="@Icons.Material.Filled.AttachFile">
-                                @file.Name <code>@file.Size bytes</code>
-                            </MudListItem>
-                        }
-                    </MudList>
-                }
-            </MudItem>
-        </MudGrid>
-    </MudForm>
-</MudPaper>
+                         <span>Uploda Your Photograph</span>
+                         <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="100">
+                             <ButtonTemplate>
+                                 <MudButton HtmlTag="label" Size="Size.Small"
+                                            Variant="Variant.Filled"
+                                            Color="Color.Primary"
+                                            @bind-value="visitormaster.Photograph"
+                                            StartIcon="@Icons.Material.Filled.CloudUpload"
+                                            for="@context.Id">
+                                     Upload Image
+                                 </MudButton>
+                             </ButtonTemplate>
+                         </MudFileUpload>
+                     </MudStack>
+                 </MudItem>
+                 <MudItem xs="12" sm="12" md="6" lg="6" Class="m-2">
+                     <MudStack Spacing="2" Class="m-2">
+                     <span>Uplodaded Documnet</span>
+                     <MudField Variant="Variant.Outlined" Disabled>
+                     @if (files != null)
+                    {
+                        <MudList>
+                            @foreach (var file in files)
+                            {
+                                <MudListItem>
+                                        <MudText> @file.Name</MudText>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    }
+                    </MudField>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth Class="m-4">Submit</MudButton>
+     </MudCardActions>
+ </MudCard>
 
-@code {
-    VisitorMaster visitormaster = new();
+
+ @code {
+    Tbl_VisitorMaster visitormaster = new();
+
     IList<IBrowserFile> files = new List<IBrowserFile>();
     MudForm form = new();
     public bool ValidateEmail(string email)
