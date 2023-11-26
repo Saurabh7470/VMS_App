@@ -1,64 +1,48 @@
 ﻿@page "/AppointmnetHeader"
+@inject NavigationManager navigate
+
 
 <MudCard Elevation="4" Outlined Class="m-2">
+    <MudCardHeader>
+         <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
+    </MudCardHeader>
     <MudCardContent>
-        <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial">Appointmenet Request</MudText>
+        <MudText Typo="Typo.h5">Appointmenet Request</MudText>
          <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5"/>
         <MudForm>
             <MudGrid Spacing="2">
                 <MudItem xs="12" sm="12" md="6" lg="6">
-                    <MudStack>
-                        <span>Appointment From</span>
-                        <MudTextField @bind-Value="appintment.FromDate" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>
-                    </MudStack>
+                        <MudTextField @bind-Value="appintment.FromDate" Label="Appointment From" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>             
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6" lg="6">
-                    <MudStack>
-                        <span>Appointment To</span>
-                        <MudTextField @bind-Value="appintment.ToDate" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>
-                    </MudStack>
+                        <MudTextField @bind-Value="appintment.ToDate" Label="Appointment To" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="4" lg="4">
-                    <MudStack>
-                        <span>Appointment Type</span>
-                        <MudSelect @bind-Value="appintment.AppointmentType" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
+                    <MudSelect @bind-Value="appintment.AppointmentType" Label="Appointment Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
                              <MudSelectItem Value="@("ABC")" />
                              <MudSelectItem Value="@("DEF")" />
                          </MudSelect>
-                     </MudStack>
+                  </MudItem>
+                 <MudItem xs="12" sm="12" md="4" lg="4">
+                         <MudTextField @bind-Value="appintment.EmployeeID" Label="Employee Name" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Employee Name"></MudTextField>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                     <MudStack>
-                         <span>Eployee Name</span>
-                         <MudTextField @bind-Value="appintment.EmployeeID" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Employee Name"></MudTextField>
-                     </MudStack>
+                         <MudTextField @bind-Value="appintment.Location" Label="Location" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Location"></MudTextField>
                  </MudItem>
-                 <MudItem xs="12" sm="12" md="4" lg="4">
-                     <MudStack>
-                         <span>Site Location</span>
-                         <MudTextField @bind-Value="appintment.Location" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Location"></MudTextField>
-                     </MudStack>
-                 </MudItem>
-                 <MudItem xs="6" sm="6" md="6" lg="6">
-                     <MudStack>
-                         <span>Accessories</span>
-                         <MudSelect @bind-Value="appintment.Accesory" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
+                 <MudItem xs="6" sm="6" md="4" lg="4">
+                         <MudSelect @bind-Value="appintment.Accesory" Label="Accessories" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
                              <MudSelectItem T="int">Yes</MudSelectItem>
                              <MudSelectItem T="int">No</MudSelectItem>
                          </MudSelect>
-                     </MudStack>
                  </MudItem>
-                 <MudItem xs="12" sm="12" md="12" lg="12">
-                     <MudStack>
-                         <span>Accessories Description</span>
-                         <MudTextField @bind-Value="appdetails.Description" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5"></MudTextField>
-                     </MudStack>
+                 <MudItem xs="12" sm="12" md="8" lg="8">
+                         <MudTextField @bind-Value="appdetails.Description" Label="Accessories Descripition" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="2"></MudTextField>
                  </MudItem>
              </MudGrid>
          </MudForm>
      </MudCardContent>
      <MudCardActions>
-       <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" FullWidth OnClick="Submit">Submit</MudButton>  
+       <MudButton Variant="Variant.Filled" Color="Color.Success" Size="Size.Small" FullWidth OnClick="Submit">Submit</MudButton>  
      </MudCardActions>
  </MudCard>
 
@@ -69,6 +53,12 @@
     private void Oninsilize()
     {
         
+    }
+
+
+    private void Back()
+    {
+        navigate.NavigateTo("/");
     }
 
     private void Submit()
