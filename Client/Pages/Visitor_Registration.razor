@@ -22,7 +22,7 @@
                  
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                 <MudTextField T="DateTime" @bind-Value="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Format="YYYY-MM-DD" Required RequiredError="Please Select Date"></MudTextField> 
+                 <MudTextField T="DateTime" @bind-Value="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Format="s" Required RequiredError="Please Select Date"></MudTextField> 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
                     
@@ -71,12 +71,15 @@
                      <MudDivider Light DividerType="DividerType.FullWidth" />
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                         <MudSelect @bind-Value="visitormaster.Id_Type" Label="ID Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
+                     <MudAutocomplete T="Tbl_IdentityType" @bind-Value="selectedId" Label="ID Type" SearchFunc="getId" ToStringFunc="@(x => x.IdType)" Variant="Variant.Outlined" Margin="Margin.Dense" >
+
+                     </MudAutocomplete>
+                        @*  <MudSelect @bind-Value="visitormaster.Id_Type" Label="ID Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
                              <MudSelectItem Value="@("Aadhar Card")" />
                              <MudSelectItem Value="@("Driving Licence")" />
                              <MudSelectItem Value="@("Voter ID")" />
                              <MudSelectItem Value="@("Pan Card")" />
-                         </MudSelect>
+                         </MudSelect> *@
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
                     
@@ -135,7 +138,7 @@
         </MudForm>
     </MudCardContent>
     <MudCardActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Success" FullWidth Class="m-4">Submit</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Success" Style="border-radius:8px;" FullWidth Class="m-4">Submit</MudButton>
      </MudCardActions>
  </MudCard>
 
@@ -143,6 +146,12 @@
  @code {
 
     Tbl_VisitorMaster visitormaster = new();
+    List<Tbl_VisitorMaster> visitor = new();
+
+    Tbl_IdentityType User = new();
+    Tbl_IdentityType selectedId = new Tbl_IdentityType();
+   
+    List<Tbl_IdentityType> Users = new();
 
     IList<IBrowserFile> files = new List<IBrowserFile>();
     MudForm form = new();
@@ -158,6 +167,14 @@
     //     return regex.IsMatch(mobile ?? "");
 
     // }
+    protected  async override Task OnInitializedAsync()
+    {
+        Users.Add(new Tbl_IdentityType() {  IdType = "Aadhar Card" });
+        Users.Add(new Tbl_IdentityType() {  IdType = "Voter ID" });
+        Users.Add(new Tbl_IdentityType() {  IdType = "Driving Licence" });
+        Users.Add(new Tbl_IdentityType() {  IdType =  "Pan Card" });
+        Users.Add(new Tbl_IdentityType() {  IdType = "Passport" });
+    }
 
 
     private void Back()
@@ -170,4 +187,14 @@
         files.Add(file);
         //TODO upload the files to the server
     }
+
+    public async Task<IEnumerable<Tbl_IdentityType>> getId(String value)
+    {
+        await Task.Delay(5);
+        if(string.IsNullOrEmpty(value))
+            return Users;
+        return Users.Where(x => x.IdType.Contains(value));
+
+    }
+  
 }

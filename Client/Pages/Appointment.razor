@@ -11,11 +11,11 @@
          <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5"/>
         <MudForm>
             <MudGrid Spacing="2">
-                <MudItem xs="12" sm="12" md="6" lg="6"> 
-                        <MudTextField T="DateTime" @bind-Value="appintment.FromDate" Label="Appointment From" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>             
+                <MudItem xs="12" sm="12" md="6" lg="6">
+                     <MudTextField T="DateTime" @bind-Value="appintment.FromDate" Format="s" Label="Appointment From" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6" lg="6">
-                        <MudTextField T="DateTime" @bind-Value="appintment.ToDate" Label="Appointment To" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>
+                        <MudTextField T="DateTime" @bind-Value="appintment.ToDate" Format="s" Label="Appointment To" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="4" lg="4">
                     <MudSelect @bind-Value="appintment.AppointmentType" Label="Appointment Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
@@ -42,15 +42,17 @@
          </MudForm>
      </MudCardContent>
      <MudCardActions>
-       <MudButton Variant="Variant.Filled" Color="Color.Success" Size="Size.Small" FullWidth OnClick="Submit">Submit</MudButton>  
+       <MudButton Variant="Variant.Filled" Color="Color.Success" Style="border-radius:8px;" FullWidth OnClick="Submit">Submit</MudButton>  
      </MudCardActions>
  </MudCard>
 
  @code {
     Tbl_Appointment_Header appintment = new();
     Tbl_Appointment_Details appdetails = new();
+    List<Tbl_Appointment_Header> appointmentheder = new();
+    List<Tbl_Appointment_Details> appointmentDetails = new();
 
-    private void Oninsilize()
+    private void OnInitializedAsync()
     {
         
     }

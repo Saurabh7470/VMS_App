@@ -8,11 +8,11 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
         <MudSpacer />
         <MudMenu Icon="@Icons.Material.Filled.MoreVert" Dense>
-            <MudMenuItem><MudButton Variant="Variant.Text" Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Tertiary" Size="Size.Small" Class="m-2"/>Profile</MudButton></MudMenuItem>
+            <MudMenuItem><MudText Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Tertiary" Size="Size.Small" Class="m-2"/>Profile</MudText></MudMenuItem>
             <MudDivider Light DividerType="DividerType.FullWidth" />
-            <MudMenuItem><MudButton Variant="Variant.Text" Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.NotificationsActive" Color="Color.Tertiary" Size="Size.Small" Class="m-2" />Notification</MudButton></MudMenuItem>
+            <MudMenuItem><MudText Variant="Variant.Text" Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.NotificationsActive" Color="Color.Tertiary" Size="Size.Small" Class="m-2" />Notification</MudText></MudMenuItem>
              <MudDivider Light DividerType="DividerType.FullWidth" />
-            <MudMenuItem><MudButton Variant="Variant.Text" Color="Color.Error" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error" Size="Size.Small" Class="m-2"/>Logout</MudButton></MudMenuItem>
+            <MudMenuItem><MudText Variant="Variant.Text" Color="Color.Error" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error" Size="Size.Small" Class="m-2"/>Logout</MudText></MudMenuItem>
         </MudMenu>
     </MudAppBar>
     <MudDrawer @bind-Open="@open" Elevation="1">
