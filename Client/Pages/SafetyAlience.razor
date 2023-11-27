@@ -19,12 +19,16 @@
 
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
-                 <MudText>SL</MudText>
-                    <MudTextField Placeholder="SL" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense"  Required="true" RequiredError="Please Enter Employee Number!"></MudTextField>
+                 @* <MudText>SL</MudText> *@
+                     <MudTextField @bind-Value="employee.Name" Label="SL" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter Your SL!"></MudTextField>
+                    @* <MudTextField Placeholder="SL" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense"  Required="true" RequiredError="Please Enter Employee Number!"></MudTextField> *@
              </MudItem>
             <MudItem md="6" xs="12" sm=12>
-                 <MudText>Name</MudText>
-                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense"  Required="true" RequiredError="Please Enter Your Name!"></MudTextField>
+                 @* <MudText>Name</MudText> *@
+
+                     <MudTextField @bind-Value="employee.Name" Label="Name" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter Your Name!"></MudTextField>
+
+                     @* <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter Your Name!"></MudTextField> *@
             </MudItem>
         </MudGrid>
        </MudForm>
