@@ -8,7 +8,7 @@
          <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small"/>Back</MudButton>
     </MudCardHeader>
     <MudCardContent>
-         <MudText Typo="Typo.h5" Color="Color.Default" >Visitor Registration</MudText>
+         <MudText Typo="Typo.h5" Color="Color.Default" Style="text-align:center; font-family:Arial">Visitor Registration</MudText>
          <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5" />
          <MudForm @ref="form">
              <MudGrid Spacing="2">
@@ -22,13 +22,11 @@
                  
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                   
-                         <MudTextField @bind-Value="visitormaster.DBO" Label="Date Of Birth" InputType="InputType.Date" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Select An Specific Date"></MudTextField>
-                    
+                 <MudTextField T="DateTime" @bind-Value="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Format="YYYY-MM-DD" Required RequiredError="Please Select Date"></MudTextField> 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
                     
-                         <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Required RequiredError="Please Enter Full Name" HideSpinButtons></MudNumericField>
+                         <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Adornment="Adornment.Start" AdornmentText="+91" Required RequiredError="Please Enter Full Name" HideSpinButtons></MudNumericField>
                     
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
@@ -143,6 +141,7 @@
 
 
  @code {
+
     Tbl_VisitorMaster visitormaster = new();
 
     IList<IBrowserFile> files = new List<IBrowserFile>();

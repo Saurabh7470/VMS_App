@@ -7,18 +7,18 @@
          <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
     </MudCardHeader>
     <MudCardContent>
-        <MudText Typo="Typo.h5">Appointment Request</MudText>
+        <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial">Appointment Request</MudText>
          <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5"/>
         <MudForm>
             <MudGrid Spacing="2">
                 <MudItem xs="12" sm="12" md="6" lg="6">
-                        <MudTextField @bind-Value="appintment.FromDate" Label="Appointment From" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>             
+                        <MudTextField T="DateTime" @bind-Value="appintment.FromDate" Label="Appointment From" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>             
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6" lg="6">
-                        <MudTextField @bind-Value="appintment.ToDate" Label="Appointment To" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>
+                        <MudTextField T="DateTime" @bind-Value="appintment.ToDate" Label="Appointment To" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="4" lg="4">
-                    <MudSelect @bind-Value="appintment.AppointmentType" Label="Appointment Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
+                    <MudSelect @bind-Value="appintment.AppointmentType" Label="Appointment Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
                              <MudSelectItem Value="@("ABC")" />
                              <MudSelectItem Value="@("DEF")" />
                          </MudSelect>
@@ -30,7 +30,7 @@
                          <MudTextField @bind-Value="appintment.Location" Label="Location" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Location"></MudTextField>
                  </MudItem>
                  <MudItem xs="6" sm="6" md="4" lg="4">
-                         <MudSelect T="int" @bind-Value="appintment.Accesory" Label="Accessories" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">
+                         <MudSelect T="int" @bind-Value="appintment.Accesory" Label="Accessories" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet"> 
                              <MudSelectItem T="int" Value="@(1)">Yes</MudSelectItem>
                              <MudSelectItem T="int" Value="@(0)">No</MudSelectItem>
                          </MudSelect>
