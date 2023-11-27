@@ -1,0 +1,93 @@
+﻿ @page "/UserId"
+@using VMS_App.Shared.Models;
+@using System.Text.RegularExpressions;
+
+
+<MudCardContent>
+
+    <MudText Typo="Typo.h5" Style="text-align:center" Class="mb-3" Color="Color.Dark">User Details</MudText>
+
+    <MudForm @ref="form">
+        <br />
+
+         <MudGrid>
+             <MudItem md="6" xs="12" sm=12>
+                 <MudText>ID Type</MudText>
+                <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedId" SearchFunc="@getId" ToStringFunc="@(x=> x.DepartmentId)" Required RequiredError="Please Select the Department!">
+
+                 </MudAutocomplete>
+             </MudItem>
+            <MudItem md="6" xs="12" sm=12>
+                 <MudText> Description</MudText>
+                 <MudTextField Placeholder="Description" T="string" Lines="3" Class="mt-2" @bind-Value="User.Description" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Description" AdornmentColor="Color.Default" Required RequiredError="Please add the Description!"></MudTextField>
+            </MudItem>
+        </MudGrid>
+
+         <MudCardActions Style="justify-content:center">
+             <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-5 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
+         </MudCardActions>
+
+        </MudForm>
+        </MudCardContent>
+
+
+ @code {
+
+    MudForm form = new MudForm();
+
+
+
+    List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
+    Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
+    Tbl_EmployeeMaster selectedId = new Tbl_EmployeeMaster();
+
+    List<Tbl_DepartmentMaster> deparments = new List<Tbl_DepartmentMaster>();
+    Tbl_DepartmentMaster selectedDepartment = new Tbl_DepartmentMaster();
+
+    List<Tbl_IdentityType> Users = new List<Tbl_IdentityType>();
+    Tbl_IdentityType User = new Tbl_IdentityType();
+
+    protected async override Task OnInitializedAsync()
+    {
+        employees.Add(new Tbl_EmployeeMaster() {  });
+        employees.Add(new Tbl_EmployeeMaster() {  });
+        
+    }
+
+    public void Submit()
+    {
+
+    }
+
+    public async Task<IEnumerable<Tbl_EmployeeMaster>> getId(string value)
+    {
+
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return employees;
+        return employees.Where(x => x.DepartmentId.Contains(value));
+    }
+
+
+    private async Task<IEnumerable<Tbl_EmployeeMaster>> Search1(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return employees; ;
+        return employees.Where(x => x.DepartmentId.Contains(value));
+    }
+
+
+
+
+      
+}
+
+
+
+} 
