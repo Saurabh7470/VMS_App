@@ -12,10 +12,10 @@
         <MudForm>
             <MudGrid Spacing="2">
                 <MudItem xs="12" sm="12" md="6" lg="6">
-                        <MudTextField @bind-Value="appintment.FromDate" Label="Appointment From" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>             
+                        <MudTextField @bind-Value="appintment.FromDate" Label="Appointment From" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>             
                 </MudItem>
                 <MudItem xs="12" sm="12" md="6" lg="6">
-                        <MudTextField @bind-Value="appintment.ToDate" Label="Appointment To" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Date" Required RequiredError="Please Select Date"></MudTextField>
+                        <MudTextField @bind-Value="appintment.ToDate" Label="Appointment To" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Required RequiredError="Please Select Date"></MudTextField>
                 </MudItem>
                 <MudItem xs="12" sm="12" md="4" lg="4">
                     <MudSelect @bind-Value="appintment.AppointmentType" Label="Appointment Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet" Adornment="Adornment.None">

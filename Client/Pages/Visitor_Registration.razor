@@ -22,9 +22,7 @@
                  
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                   
-                         <MudTextField @bind-Value="visitormaster.DBO" Label="Date Of Birth" InputType="InputType.Date" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Select An Specific Date"></MudTextField>
-                    
+                 <MudTextField T="DateTime" @bind-Value="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Format="s" Required RequiredError="Please Select Date"></MudTextField> 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
                     
@@ -143,6 +141,7 @@
 
 
  @code {
+
     Tbl_VisitorMaster visitormaster = new();
 
     IList<IBrowserFile> files = new List<IBrowserFile>();
