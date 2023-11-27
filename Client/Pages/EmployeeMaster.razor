@@ -1,0 +1,166 @@
+﻿@page "/EmpForm"
+@using VMS_App.Shared.Models;
+@using System.Text.RegularExpressions;
+
+
+<MudCardContent>
+    <MudText Typo="Typo.h5" Style="text-align:center" Class="mb-3" Color="Color.Dark">Employee Registration</MudText>
+
+    <MudForm @ref="form">
+        <br />
+
+         <MudGrid>
+             <MudItem md="6" xs="12" sm=12>
+                 <MudText>Employee Number</MudText>
+                    <MudTextField Placeholder="Employee Number" MaxLength="10" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required RequiredError="Please Enter Employee Number!"></MudTextField>
+             </MudItem>
+            <MudItem md="6" xs="12" sm=12>
+                 <MudText>Name</MudText>
+                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required RequiredError="Please Enter Your Name!"></MudTextField>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem md="6" xs="12" sm=12>
+                 <MudText>Email</MudText>
+                     <MudTextField Placeholder="Email" T="string" Validation="@Email" Class="mt-2" @bind-value="employee.Email" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Email" AdornmentColor="Color.Default" Required RequiredError="Please Enter Your Email!"></MudTextField>
+             </MudItem>
+             <MudItem md="6" xs="12" sm=12>
+                 <MudText>Mobile</MudText>
+                     <MudTextField Placeholder="Mobile" T="string" Validation="@Mob" MaxLength="10" Class="mt-2" @bind-Value="employee.Mobile" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Phone" AdornmentColor="Color.Default" Required RequiredError=" Please Enter Your Mobile Number!"></MudTextField>
+             </MudItem>
+         </MudGrid>
+
+         <MudGrid>
+             <MudItem md="6" xs="12" sm=12>
+                 <MudText>Department</MudText>
+                 <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentName)" Required RequiredError="Please Select the Department!">
+                     
+                 </MudAutocomplete>
+             </MudItem>
+             <MudItem md="6" xs="12" sm=12>
+                 <MudText>Grade</MudText>
+                 <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required RequiredError="Please Select the Grade!"></MudAutocomplete>
+                                
+             </MudItem>
+         </MudGrid>
+
+         <MudGrid>
+             <MudItem md="6" xs="12" sm=12>
+                 <MudText>Designation</MudText>
+                 <MudAutocomplete T="Tbl_EmployeeMaster" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required RequiredError="Please Select the Designation!">
+
+                 </MudAutocomplete>
+             </MudItem>            
+         </MudGrid>
+         
+        <br />
+        <MudCardActions Style="justify-content:center">
+            <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-5 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
+        </MudCardActions>
+    </MudForm>
+
+</MudCardContent>
+
+
+
+ @code {
+    MudForm form = new MudForm();
+
+
+
+    List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
+    Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
+    Tbl_EmployeeMaster selectedDesignation = new Tbl_EmployeeMaster();
+
+    List<Tbl_DepartmentMaster> deparments = new List<Tbl_DepartmentMaster>();
+    Tbl_DepartmentMaster selectedDepartment = new Tbl_DepartmentMaster();
+
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        deparments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode="101", DepartmentName = "IT" });
+        deparments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode="102", DepartmentName = "Finance" });
+        deparments.Add(new Tbl_DepartmentMaster() { Id = 3, DepartmentCode="103", DepartmentName = "EDUCATION" });
+        deparments.Add(new Tbl_DepartmentMaster() { Id = 4, DepartmentCode="104", DepartmentName = "SALES" });
+
+        employees.Add(new Tbl_EmployeeMaster() { Id = 1, Designation = "HOD" });
+        employees.Add(new Tbl_EmployeeMaster() { Id = 2, Designation = "Security" });
+        employees.Add(new Tbl_EmployeeMaster() { Id = 1, Designation = "DR" });
+
+    }
+   
+    public void Submit()
+    {
+
+    }
+
+
+    public async Task<IEnumerable<Tbl_DepartmentMaster>> getDepartment(string value){
+
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return deparments;
+        return deparments.Where(x => x.DepartmentName.Contains(value));
+    }
+        
+    
+
+    private async Task<IEnumerable<Tbl_DepartmentMaster>> Search1(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return deparments;
+        return deparments.Where(x => x.DepartmentName.Contains(value));
+    }
+   
+
+
+
+
+
+    public async Task<IEnumerable<Tbl_EmployeeMaster>> getDesignation(string value)
+    {
+
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return employees;
+        return employees.Where(x => x.Designation.Contains(value));
+    }
+
+    private async Task<IEnumerable<Tbl_EmployeeMaster>> Search2(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return employees;
+        return employees.Where(x => x.Designation.Contains(value));
+    }
+
+    
+    public bool Email(String val)
+    {
+        Regex regex = new Regex("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+        return regex.IsMatch(val ?? "valid");
+    }
+
+    public bool Mob(String Val)
+    {
+        Regex regex = new Regex("^?[(]?[0-9]{3}[)]??[0-9]{3}[0-9]{4,6}$");
+        return regex.IsMatch(Val ?? "valid");
+    }
+
+
+
+}
+
