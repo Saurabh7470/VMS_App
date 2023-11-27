@@ -14,7 +14,7 @@
 <MudCardContent>
 
     <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Department Registration</MudText>
-
+         <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5" />
     <MudForm @ref="form">
         <br />
 
@@ -36,7 +36,7 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                   <MudText>HOD</MudText>
-                      <MudTextField Placeholder="HOD" T="string"  Class="mt-2" @bind-value="employee.Designation" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required="true" RequiredError="Please Enter Your Designation!"></MudTextField>
+                      <MudTextField Placeholder="HOD" T="string"  Class="mt-2" @bind-value="employee.Designation" Variant="Variant.Outlined" Margin="Margin.Dense"  Required="true" RequiredError="Please Enter Your Designation!"></MudTextField>
               </MudItem>
 
           </MudGrid>

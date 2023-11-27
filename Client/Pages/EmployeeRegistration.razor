@@ -13,6 +13,7 @@
 
 <MudCardContent>
     <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Employee Registration</MudText>
+         <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5" />
 
     <MudForm @ref="form">
         <br />
@@ -20,11 +21,11 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>Employee Number</MudText>
-                    <MudTextField Placeholder="Employee Number" MaxLength="10" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required= "true" RequiredError="Please Enter Employee Number!"></MudTextField>
+                    <MudTextField Placeholder="Employee Number" MaxLength="10" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Required= "true" RequiredError="Please Enter Employee Number!"></MudTextField>
              </MudItem>
             <MudItem md="6" xs="12" sm=12>
                  <MudText>Name</MudText>
-                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required="true"    RequiredError="Please Enter Your Name!"></MudTextField>
+                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" Required="true" RequiredError="Please Enter Your Name!"></MudTextField>
             </MudItem>
         </MudGrid>
 
