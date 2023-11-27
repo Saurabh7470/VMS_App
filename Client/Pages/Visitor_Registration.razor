@@ -28,12 +28,12 @@
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
                     
-                         <MudTextField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Enter Full Name"></MudTextField>
+                         <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Required RequiredError="Please Enter Full Name" HideSpinButtons></MudNumericField>
                     
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
                      
-                         <MudTextField @bind-Value="visitormaster.Email" Label="Email" Margin="Margin.Dense" Variant="Variant.Outlined" Validation="@ValidateEmail" Required RequiredError="Please Enter Email Address" ErrorText="Please Enter Correct Email Address"></MudTextField>
+                         <MudTextField @bind-Value="visitormaster.Email" Label="Email" Margin="Margin.Dense" Variant="Variant.Outlined" Validation="@ValidateEmail" Required RequiredError="Please Enter Email Address"></MudTextField>
                     
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
@@ -152,6 +152,14 @@
         Regex regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"); // Regular expression for email validation
         return regex.IsMatch(email ?? "Invalid Email Address");
     }
+
+    // public bool validateMobile(string mobile)
+    // {
+    //     Regex regex = new Regex(@"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$");
+    //     return regex.IsMatch(mobile ?? "");
+
+    // }
+
 
     private void Back()
     {
