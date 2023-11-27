@@ -1,6 +1,14 @@
 ﻿@page "/EmpForm"
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
+@inject NavigationManager navigate
+
+
+<MudCard Elevation="4" Outlined Class="m-2">
+    <MudCardHeader>
+         <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
+    </MudCardHeader>
+
 
 
 <MudCardContent>
@@ -12,35 +20,35 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>Employee Number</MudText>
-                    <MudTextField Placeholder="Employee Number" MaxLength="10" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required RequiredError="Please Enter Employee Number!"></MudTextField>
+                    <MudTextField Placeholder="Employee Number" MaxLength="10" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required= "true" RequiredError="Please Enter Employee Number!"></MudTextField>
              </MudItem>
             <MudItem md="6" xs="12" sm=12>
                  <MudText>Name</MudText>
-                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required RequiredError="Please Enter Your Name!"></MudTextField>
+                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required="true"    RequiredError="Please Enter Your Name!"></MudTextField>
             </MudItem>
         </MudGrid>
 
         <MudGrid>
             <MudItem md="6" xs="12" sm=12>
                  <MudText>Email</MudText>
-                     <MudTextField Placeholder="Email" T="string" Validation="@Email" Class="mt-2" @bind-value="employee.Email" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Email" AdornmentColor="Color.Default" Required RequiredError="Please Enter Your Email!"></MudTextField>
+                     <MudTextField Placeholder="Email" T="string" Validation="@Email" Class="mt-2" @bind-value="employee.Email" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Email" AdornmentColor="Color.Default" Required="true" RequiredError="Please Enter Your Email!"></MudTextField>
              </MudItem>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>Mobile</MudText>
-                     <MudTextField Placeholder="Mobile" T="string" Validation="@Mob" MaxLength="10" Class="mt-2" @bind-Value="employee.Mobile" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Phone" AdornmentColor="Color.Default" Required RequiredError=" Please Enter Your Mobile Number!"></MudTextField>
+                     <MudTextField Placeholder="Mobile" T="string" Validation="@Mob" MaxLength="10" Class="mt-2" @bind-Value="employee.Mobile" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Phone" AdornmentColor="Color.Default" Required="true" RequiredError=" Please Enter Your Mobile Number!"></MudTextField>
              </MudItem>
          </MudGrid>
 
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>Department</MudText>
-                 <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentName)" Required RequiredError="Please Select the Department!">
+                 <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentName)" Required="true" RequiredError="Please Select the Department!">
                      
                  </MudAutocomplete>
              </MudItem>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>Grade</MudText>
-                 <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required RequiredError="Please Select the Grade!"></MudAutocomplete>
+                 <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required="true" RequiredError="Please Select the Grade!"></MudAutocomplete>
                                 
              </MudItem>
          </MudGrid>
@@ -48,7 +56,7 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>Designation</MudText>
-                 <MudAutocomplete T="Tbl_EmployeeMaster" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required RequiredError="Please Select the Designation!">
+                 <MudAutocomplete T="Tbl_EmployeeMaster" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required="true" RequiredError="Please Select the Designation!">
 
                  </MudAutocomplete>
              </MudItem>            
@@ -61,7 +69,7 @@
     </MudForm>
 
 </MudCardContent>
-
+</MudCard>
 
 
  @code {
@@ -89,7 +97,14 @@
         employees.Add(new Tbl_EmployeeMaster() { Id = 2, Designation = "Security" });
         employees.Add(new Tbl_EmployeeMaster() { Id = 1, Designation = "DR" });
 
+
     }
+
+    private void Back()
+    {
+        navigate.NavigateTo("/");
+    }
+
    
     public void Submit()
     {

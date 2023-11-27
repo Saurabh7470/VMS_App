@@ -1,11 +1,18 @@
-﻿ @page "/UserId"
+﻿ @page "/Identity"
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
+@inject NavigationManager navigate
+
+
+<MudCard Elevation="4" Outlined Class="m-2">
+    <MudCardHeader>
+         <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
+    </MudCardHeader>
 
 
 <MudCardContent>
 
-    <MudText Typo="Typo.h5" Style="text-align:center" Class="mb-3" Color="Color.Dark">User Details</MudText>
+    <MudText Typo="Typo.h5" Style="text-align:center" Class="mb-3" Color="Color.Dark">Identity</MudText>
 
     <MudForm @ref="form">
         <br />
@@ -13,13 +20,13 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>ID Type</MudText>
-                <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedId" SearchFunc="@getId" ToStringFunc="@(x=> x.DepartmentId)" Required RequiredError="Please Select the Department!">
+                <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedId" SearchFunc="@getId" ToStringFunc="@(x=> x.DepartmentId)" Required="true" RequiredError="Please Select the Department!">
 
                  </MudAutocomplete>
              </MudItem>
             <MudItem md="6" xs="12" sm=12>
                  <MudText> Description</MudText>
-                 <MudTextField Placeholder="Description" T="string" Lines="3" Class="mt-2" @bind-Value="User.Description" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Description" AdornmentColor="Color.Default" Required RequiredError="Please add the Description!"></MudTextField>
+                 <MudTextField Placeholder="Description" T="string" Lines="3" Class="mt-2" @bind-Value="User.Description" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Description" AdornmentColor="Color.Default" Required="true" RequiredError="Please add the Description!"></MudTextField>
             </MudItem>
         </MudGrid>
 
@@ -29,7 +36,7 @@
 
         </MudForm>
         </MudCardContent>
-
+        </MudCard>
 
  @code {
 
@@ -52,6 +59,11 @@
         employees.Add(new Tbl_EmployeeMaster() {  });
         employees.Add(new Tbl_EmployeeMaster() {  });
         
+    }
+
+    private void Back()
+    {
+        navigate.NavigateTo("/");
     }
 
     public void Submit()
@@ -88,6 +100,3 @@
       
 }
 
-
-
-} 

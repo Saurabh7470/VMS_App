@@ -1,7 +1,13 @@
 ﻿@page "/safety"
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
+@inject NavigationManager navigate
 
+
+<MudCard Elevation="4" Outlined Class="m-2">
+    <MudCardHeader>
+         <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
+    </MudCardHeader>
 
 <MudCardContent>
 
@@ -13,11 +19,11 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>SL</MudText>
-                    <MudTextField Placeholder="SL" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required RequiredError="Please Enter Employee Number!"></MudTextField>
+                    <MudTextField Placeholder="SL" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required="true" RequiredError="Please Enter Employee Number!"></MudTextField>
              </MudItem>
             <MudItem md="6" xs="12" sm=12>
                  <MudText>Name</MudText>
-                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required RequiredError="Please Enter Your Name!"></MudTextField>
+                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required="true" RequiredError="Please Enter Your Name!"></MudTextField>
             </MudItem>
         </MudGrid>
        </MudForm>
@@ -28,11 +34,11 @@
               <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-5 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
           </MudCardActions>
      
-  
+  </MudCard>
 
 
 
-@code {
+ @code {
 
 
     MudForm form = new MudForm();
@@ -41,8 +47,11 @@
 
     List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
     Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
-    
 
+    public void Back()
+    {
+        navigate.NavigateTo("/");
+    }
 
 
 

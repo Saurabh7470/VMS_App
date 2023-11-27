@@ -1,6 +1,14 @@
 ﻿@page "/DepForm"
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
+@inject NavigationManager navigate
+
+
+<MudCard Elevation="4" Outlined Class="m-2">
+    <MudCardHeader>
+         <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
+    </MudCardHeader>
+
 
 
 <MudCardContent>
@@ -13,13 +21,13 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                  <MudText>Department Code</MudText>
-                <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" MaxLength="10" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentCode)" Required RequiredError="Please Select the Department!">
+                <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" MaxLength="10" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentCode)" Required="true" RequiredError="Please Select the Department!">
 
                   </MudAutocomplete>
               </MudItem>
              <MudItem md="6" xs="12" sm=12>
                   <MudText> Department Name</MudText>
-                  <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentName)" Required RequiredError="Please Select the Department!">
+                  <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentName)" Required="true" RequiredError="Please Select the Department!">
 
                   </MudAutocomplete>
              </MudItem>
@@ -28,10 +36,11 @@
          <MudGrid>
              <MudItem md="6" xs="12" sm=12>
                   <MudText>HOD</MudText>
-                      <MudTextField Placeholder="HOD" T="string"  Class="mt-2" @bind-value="employee.Designation" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required RequiredError="Please Enter Your Designation!"></MudTextField>
+                      <MudTextField Placeholder="HOD" T="string"  Class="mt-2" @bind-value="employee.Designation" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" AdornmentColor="Color.Default" Required="true" RequiredError="Please Enter Your Designation!"></MudTextField>
               </MudItem>
 
           </MudGrid>
+
 
           <br />
           <MudCardActions Style="justify-content:center">
@@ -39,8 +48,10 @@
           </MudCardActions>
       </MudForm>
  </MudCardContent>
+ </MudCard>
 
- @code {
+
+@code {
     MudForm form = new MudForm();
 
 
@@ -64,9 +75,15 @@
 
     }
 
-    public void Submit()
+    private void Back()
     {
+        navigate.NavigateTo("/");
+    }
 
+
+    public async Task Submit()
+    {
+        
     }
 
 
