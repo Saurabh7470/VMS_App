@@ -22,11 +22,11 @@
                  
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                 <MudTextField T="DateTime" @bind-Value="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Format="s" Required RequiredError="Please Select Date"></MudTextField> 
+                 <MudTextField T="DateTime" @bind-Value="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.DateTimeLocal" Format="YYYY-MM-DD" Required RequiredError="Please Select Date"></MudTextField> 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
                     
-                         <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Required RequiredError="Please Enter Full Name" HideSpinButtons></MudNumericField>
+                         <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Adornment="Adornment.Start" AdornmentText="+91" Required RequiredError="Please Enter Full Name" HideSpinButtons></MudNumericField>
                     
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
