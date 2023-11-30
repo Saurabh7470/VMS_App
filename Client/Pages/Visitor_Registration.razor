@@ -1,6 +1,7 @@
 ﻿@page "/Visitor_registration"
 @using System.Text.RegularExpressions
 @using VMS_App.Shared.Models
+@using VMS_App.Client.LoginService
 @inject NavigationManager navigate
 
 <MudCard Elevation="4" Outlined Class="mt-2">
@@ -25,16 +26,10 @@
                 <MudDatePicker Label="DateO Of Birth" @bind-Date="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Delect Date Of Birth"></MudDatePicker>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                     @if (image != null && image.Count > 0)
-                    {
-                        @foreach(var photograph in image)
-                        {
-                            <MudImage  Src="@($"data:image/png;base64,{photograph}")"></MudImage>
-                        }
-                    }
+                 
 
                    <span>Upload Image</span>
-                     <MudFileUpload T="sbyte" Accept=".png, .jpg" OnFilesChanged="UploadFiles1" MaximumFileCount="100">
+                     <MudFileUpload T="sbyte" Accept=".png, .jpg" OnFilesChanged="UploadFiles1">
                          <ButtonTemplate>
                              <MudButton HtmlTag="label" Size="Size.Small"
                                         Variant="Variant.Filled"
@@ -48,8 +43,8 @@
                      </MudFileUpload>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                    
-                         <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Adornment="Adornment.Start" AdornmentText="+91" Required RequiredError="Please Enter Full Name" HideSpinButtons></MudNumericField>
+
+                     <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Adornment="Adornment.Start" AdornmentText="+91" Required RequiredError="Please Enter Contact Number" HideSpinButtons></MudNumericField>
                     
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
@@ -145,6 +140,7 @@
 
 
  @code {
+    Image img = new();
 
     Tbl_VisitorMaster visitormaster = new();
     List<Tbl_VisitorMaster> visitor = new();
@@ -158,17 +154,28 @@
     IList<string> image = new List<string>();
 
     MudForm form = new();
-    public bool ValidateEmail(string email)
+    public string ValidateEmail(string email)
     {
-        Regex regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"); // Regular expression for email validation
-        return regex.IsMatch(email ?? "Invalid Email Address");
+        if(email != null)
+        {
+            Regex regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"); // Regular expression for email validation
+            var Result = regex.IsMatch(email);
+            if (Result != true)
+            {
+                return "Invalid Email Address";
+            }
+        }
+        else
+        {
+
+            return "Please Enter Email Address";
+        }
+        return null;
     }
 
-    // public bool validateMobile(string mobile)
+    // public string validateMobile(string mobile)
     // {
-    //     Regex regex = new Regex(@"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$");
-    //     return regex.IsMatch(mobile ?? "");
-
+    //   var result =   
     // }
     protected  async override Task OnInitializedAsync()
     {
@@ -189,8 +196,15 @@
     {
         foreach(var file in e.GetMultipleFiles())
         {
-            var Photo = Convert.ToBase64String(await ReadFileAsync(file));
-            image.Add(Photo);
+            var fileData = new FileData();
+            var buffer = new byte[file.Size];
+            await file.OpenReadStream().ReadAsync(buffer);
+            fileData.Filename = file.Name;
+            fileData.Filetype = file.ContentType;
+            fileData.FileSize = file.Size;
+            fileData.imageByte = buffer;
+            fileData.imagUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+
         }
     }
 

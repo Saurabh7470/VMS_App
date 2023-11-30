@@ -1,0 +1,98 @@
+﻿@page "/Login"
+@using VMS_App.Client.LoginService
+@inject NavigationManager navigate;
+@inject ISnackbar Snackbar
+@inject LoginService login
+@layout LoginLayout;
+
+<MudContainer>
+    <MudCard Elevation="4" Outlined Class="mt-2">
+        <MudCardContent>
+         <MudForm @ref="form">
+            <MudGrid Justify="Justify.Center" Spacing="0">
+                <MudItem xs="12" sm="12" md="6" lg="6">
+                    <MudImage Fluid Src="https://media.istockphoto.com/id/1254583061/vector/two-business-partners-are-shaking-hands-the-investor-investing-money-to-idea-and-startup.jpg?s=612x612&w=0&k=20&c=buQOv0PkkWKbtiGTf9NEFh_ll4nrWnEejD0QkrSBCWU="></MudImage>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="6" lg="6">
+                    <MudGrid Justify="Justify.Center" Spacing="4">
+                        <MudItem xs="12" sm="12" md="8" lg="8">
+                            <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Tertiary" Style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+                                 <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Color="Color.Tertiary" Size="Size.Large" Class="align-content-center" /><br />Visitor Management Portal
+                             </MudText>
+                        </MudItem>
+                       
+                        <MudItem xs="12" sm="12" md="8" lg="8">
+                            <MudTextField @bind-Value="User.Username" Label="Username" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" AdornmentColor="Color.Tertiary" Margin="Margin.Dense" Required RequiredError="Please Enter Username"></MudTextField>
+                        </MudItem>
+                         <MudItem xs="12" sm="12" md="8" lg="8">
+                             <MudTextField @bind-Value="User.Password" Label="Password" Margin="Margin.Dense" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword" AdornmentAriaLabel="Show Password" Required RequiredError="Please Enter Password"/>
+                         </MudItem>
+                        <MudItem xs="12" sm="12" md="8" lg="8">
+                            <MudButton Variant="Variant.Filled" Color="Color.Tertiary" Size="Size.Medium" FullWidth Style="border-radius:10px" OnClick="LoginBtn">Login</MudButton>
+                         @* <MudText Align="Align.End">Forgot password ?</MudText> *@
+                        </MudItem>
+                       @*  <MudItem xs="12" sm="12" md="8" lg="8">
+                            <MudDivider DividerType="DividerType.Middle" Light/>
+                         <MudText Align="Align.Center" Style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:small">Don't have an Account ? <MudLink>Sign In</MudLink></MudText>
+                            <MudDivider DividerType="DividerType.Middle" Light/>
+                        </MudItem> *@
+                    </MudGrid>
+                </MudItem>
+            </MudGrid>
+            </MudForm>
+        </MudCardContent>
+    </MudCard>
+ </MudContainer>
+
+ @code {
+    Tbl_user User = new();
+    MudForm form = new();
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ShowPassword()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInput = InputType.Text;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+        }
+    }
+
+    private async void LoginBtn()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            try
+            {
+                var isvalid = login.ValidUser(User.Username, User.Password);
+
+                if (isvalid)
+                {
+                    navigate.NavigateTo("/");
+                    Snackbar.Add("Login Succefully", Severity.Success);
+
+                }
+                else
+                {
+                    Snackbar.Add("Invalid Username Or Password.", Severity.Error);
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+       
+    }
+}

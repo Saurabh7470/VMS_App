@@ -54,7 +54,7 @@
                             <MudTextField @bind-Value="details.Description" Label="Accessories Descripition" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
                         </MudItem>
                         <MudItem xs="12" sm="12" md="4" lg="4">
-                            <MudButton Variant="Variant.Text" Color="Color.Default" Size="Size.Small" @onclick="@(()=>  removeFile(details) )"><MudIcon Icon="@Icons.Material.Filled.Remove" Size="Size.Small" Color="Color.Default" />Remove Accessories</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Default" Size="Size.Small" @onclick="@(()=> removeFile(details))" Class="mt-2"><MudIcon Icon="@Icons.Material.Filled.Remove" Size="Size.Small" Color="Color.Default" />Remove Item</MudButton>
                         </MudItem>
                     }
 
