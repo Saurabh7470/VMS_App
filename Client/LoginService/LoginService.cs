@@ -4,7 +4,6 @@ namespace VMS_App.Client.LoginService
 {
     public class LoginService
     {
-        private static readonly TimeSpan sessionTime = TimeSpan.FromMinutes(15);
         private static List<Tbl_user> Users = new List<Tbl_user>
         {
           new Tbl_user {Id = 1, Username="Saurabh", Password="password", UserType="Visitor", Contact="7554554", Email="Saurabh@gamail.com"},
