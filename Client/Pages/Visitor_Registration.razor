@@ -43,7 +43,7 @@
                      </MudGrid>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" OnFilesChanged="GetImageUrlAsync" @bind-File="visitormaster.Photograph" Hidden="@false" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
+                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" OnFilesChanged="GetImageUrlAsync" @bind-File="visitormaster.Photograph" Hidden="@false" Required RequiredError="Please Upload Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
                         <ButtonTemplate>
                             <MudPaper Outlined="true" Class="@_dragClass">
                                 @if (!string.IsNullOrEmpty(imageUrl))
@@ -114,7 +114,7 @@
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4 ">
 
-                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" @bind-File="visitormaster.PersonalId_File" OnFilesChanged="UploadFiles2" Hidden="@false" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
+                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" @bind-File="visitormaster.PersonalId_File" OnFilesChanged="UploadFiles2" Hidden="@false" Required RequiredError="Please Upload Documenet Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
                          <ButtonTemplate>
                              <MudPaper Outlined="true" Class="@_dragClass">
                                  @if (!string.IsNullOrEmpty(Documnet))
@@ -231,8 +231,6 @@
 
         return "";
     }
-
-
 
     private async Task UploadFiles2(InputFileChangeEventArgs files)
     {
