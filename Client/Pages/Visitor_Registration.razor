@@ -3,6 +3,7 @@
 @using VMS_App.Shared.Models
 @using VMS_App.Client.LoginService
 @inject NavigationManager navigate
+@using VMS_App.Client.Service
 
 <MudCard Elevation="4" Outlined Class="mt-2">
      <MudCardHeader>
@@ -252,7 +253,7 @@
     private async Task Submit()
     {
         await form.Validate();
-
+        var response = httpServices.PostData<Tbl_VisitorMaster>("api/")
     }
 
 }
