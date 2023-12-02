@@ -10,6 +10,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddMudServices();
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://110.227.194.109:6034/api") });
+builder.Services.AddScoped<LoginService, LoginService>();
+builder.Services.AddScoped<IHttpService, HttpService>(option=> new HttpService(new HttpClient() { BaseAddress= new Uri("https://110.227.194.109:6034/api") }));
 
 await builder.Build().RunAsync();
