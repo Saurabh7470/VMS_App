@@ -21,35 +21,36 @@
                      <MudGrid Spacing="2">
                      <MudItem xs="12" sm="12" md="6" lg="6">
 
-                     <MudTextField @bind-Value="visitormaster.Name" Label="Name" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Enter Full Name"></MudTextField>
+                     <MudTextField @bind-Value="visitor.Name" Label="Name" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Enter Full Name"></MudTextField>
                      </MudItem>
               
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                     <MudDatePicker Label="DateO Of Birth" @bind-Date="visitormaster.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Delect Date Of Birth"></MudDatePicker>
+                     <MudDatePicker Label="DateO Of Birth" @bind-Date="visitor.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Delect Date Of Birth"></MudDatePicker>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
-                     <MudNumericField @bind-Value="visitormaster.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Adornment="Adornment.Start" AdornmentText="+91" Required RequiredError="Please Enter Contact Number" HideSpinButtons></MudNumericField>
+                     <MudNumericField @bind-Value="visitor.MobileNo" Label="Contact Number" Margin="Margin.Dense" Variant="Variant.Outlined" T="string" MaxLength="10" Adornment="Adornment.Start" AdornmentText="+91" Required RequiredError="Please Enter Contact Number" HideSpinButtons></MudNumericField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
-                     <MudTextField @bind-Value="visitormaster.Email" Label="Email" Margin="Margin.Dense" Variant="Variant.Outlined" Validation="@ValidateEmail" Required RequiredError="Please Enter Email Address"></MudTextField>
+                     <MudTextField @bind-Value="visitor.Email" Label="Email" Margin="Margin.Dense" Variant="Variant.Outlined" Validation="@ValidateEmail" Required RequiredError="Please Enter Email Address"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                     <MudTextField @bind-Value="visitormaster.Company" Label="Organigation Name" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Name Of Organigation"></MudTextField>
+                     <MudTextField @bind-Value="visitor.Company" Label="Organigation Name" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Name Of Organigation"></MudTextField>
                  </MudItem>
                      </MudGrid>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" OnFilesChanged="GetImageUrlAsync" @bind-File="visitormaster.Photograph" Hidden="@false" Required RequiredError="Please Upload Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
+                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" OnFilesChanged="GetImageUrlAsync" @bind-File="visitor.Photograph" Hidden="@false" Required RequiredError="Please Upload Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
                         <ButtonTemplate>
-                            <MudPaper Outlined="true" Class="@_dragClass">
+                             <MudPaper Outlined="true" Class="relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10">
                                 @if (!string.IsNullOrEmpty(imageUrl))
                                 {
                                     <MudGrid Justify="Justify.Center">
                                     <MudImage Height="100" Width="100" Src="@imageUrl" ObjectPosition="ObjectPosition.Center"/>
+                                    <MudText Color="Color.Success" Class="m-2">File Uploaded!</MudText>
                                     </MudGrid>
                                 }
                                 else
@@ -68,28 +69,28 @@
                      <MudDivider Light DividerType="DividerType.FullWidth" />
                  </MudItem>
                  <MudItem xs="12" sm="12" md="12" lg="12">
-                     <MudTextField @bind-Value="visitormaster.Address" Label="Permanent Address" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="2" Required RequiredError="Please Enter Your Addresss"></MudTextField>
+                     <MudTextField @bind-Value="visitor.Address" Label="Permanent Address" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="2" Required RequiredError="Please Enter Your Addresss"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="3" lg="3">
 
 
-                     <MudTextField @bind-Value="visitormaster.City" Label="City" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter City Name"></MudTextField>
+                     <MudTextField @bind-Value="visitor.City" Label="City" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter City Name"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="3" lg="3">
 
-                     <MudTextField @bind-Value="visitormaster.State" Label="State" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter State Name"></MudTextField>
+                     <MudTextField @bind-Value="visitor.State" Label="State" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter State Name"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="3" lg="3">
 
-                     <MudTextField @bind-Value="visitormaster.Country" Label="Country" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Country"></MudTextField>
+                     <MudTextField @bind-Value="visitor.Country" Label="Country" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Country"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="8" sm="8" md="3" lg="3">
 
-                     <MudTextField @bind-Value="visitormaster.Pincode" Label="Pincode" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Your Pincode"></MudTextField>
+                     <MudTextField @bind-Value="visitor.Pincode" Label="Pincode" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Your Pincode"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="12" lg="12">
@@ -109,18 +110,19 @@
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
-                     <MudTextField @bind-Value="visitormaster.Personal_Id" Label="ID Number" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
+                     <MudTextField @bind-Value="visitor.Personal_Id" Label="ID Number" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4 ">
 
-                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" @bind-File="visitormaster.PersonalId_File" OnFilesChanged="UploadFiles2" Hidden="@false" Required RequiredError="Please Upload Documenet Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
+                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" @bind-File="visitor.Personal_Id" OnFilesChanged="UploadFiles2" Hidden="@false" Required RequiredError="Please Upload Documenet Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
                          <ButtonTemplate>
-                             <MudPaper Outlined="true" Class="@_dragClass">
+                             <MudPaper Outlined="true" Class="relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10">
                                  @if (!string.IsNullOrEmpty(Documnet))
                                 {
                                     <MudGrid Justify="Justify.Center">
                                     <MudImage Height="100" Width="100" Src="@Documnet" />
+                                    <MudText Color="Color.Success" Class="m-2">File Uploaded!</MudText>
                                     </MudGrid>
                                 }
                                 else
@@ -143,16 +145,13 @@
 
  @code {
 
-    Tbl_VisitorMaster visitormaster = new();
-    List<Tbl_VisitorMaster> visitor = new();
+    Tbl_VisitorMaster visitor = new();
+    List<Tbl_VisitorMaster> visitors = new();
 
     Tbl_IdentityType User = new();
-    Tbl_IdentityType selectedId = new Tbl_IdentityType();
-
     List<Tbl_IdentityType> Users = new();
-
-    IList<IBrowserFile> files = new List<IBrowserFile>();
-    IList<IBrowserFile> image = new List<IBrowserFile>();
+   
+    Tbl_IdentityType selectedId = new Tbl_IdentityType();
 
     MudForm form = new();
     public string ValidateEmail(string email)
@@ -206,8 +205,6 @@
 
     public string Documnet = null;
     private string imageUrl = null;
-    private const string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10";
-    private string _dragClass = DefaultDragClass;
 
     private async Task GetImageUrlAsync(InputFileChangeEventArgs files)
     {

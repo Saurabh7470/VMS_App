@@ -2,6 +2,9 @@
 @inject NavigationManager navi;
 @using VMS_App.Client.LoginService
 @inject LoginService Login
+@inject IJSRuntime jsruntime
+@using Newtonsoft.Json
+
 <MudThemeProvider Theme="MyCustomTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -22,9 +25,9 @@
      </MudAppBar>
      <MudDrawer @bind-Open="@open" Elevation="1" ClipMode="DrawerClipMode.Docked">
          <MudDrawerHeader>
-            <MudText Color="Color.Default" Typo="Typo.body2" Class="m-2"><MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Color="Color.Default" /><b>Visitor Management</b></MudText>
-        </MudDrawerHeader>
-        <MudDivider Light DividerType="DividerType.Middle" />
+             <MudText Color="Color.Default" Typo="Typo.body2" Class="m-2"><MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Color="Color.Default" /><b>Visitor Management</b></MudText>
+         </MudDrawerHeader>
+         <MudDivider Light DividerType="DividerType.Middle" />
          <NavMenu />
      </MudDrawer>
      <MudMainContent>
@@ -42,10 +45,21 @@
     {
         open = !open;
     }
-
-    protected override void OnInitialized()
+    private void Logout()
     {
-        if (Login.AuthenticatedUser == null)
+        Login.Logout();
+        navi.NavigateTo("/Login");
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var AuthenticateUser = await jsruntime.InvokeAsync<string>("sessionStorage.getItem", "AuthenticatedUser");
+        if (!string.IsNullOrEmpty(AuthenticateUser))
+        {
+            Login.AuthenticatedUser = JsonConvert.DeserializeObject<Tbl_user>(AuthenticateUser);
+        }
+
+        if(Login.AuthenticatedUser == null)
         {
             navi.NavigateTo("/Login");
         }
@@ -53,21 +67,16 @@
         {
             user = Login.AuthenticatedUser;
         }
-    }
 
-    private void Logout()
-    {
-        Login.Logout();
-        navi.NavigateTo("/Login");
     }
 
     MudTheme MyCustomTheme = new MudTheme()
         {
             Palette = new PaletteLight()
             {
-                DrawerBackground= Colors.Grey.Lighten3,
-                Background= Colors.Grey.Lighten5,
-                
+                DrawerBackground = Colors.Grey.Lighten3,
+                Background = Colors.Grey.Lighten5,
+
             },
             PaletteDark = new PaletteDark()
             {
@@ -80,4 +89,4 @@
                 DrawerWidthRight = "300px"
             }
         };
-}
+    }

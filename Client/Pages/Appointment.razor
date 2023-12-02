@@ -18,7 +18,7 @@
                      <MudDatePicker @bind-Date="appointment.ToDate" Label="Appointment End date" Variant="Variant.Outlined" Margin="Margin.Dense" MinDate="@appointment.FromDate" Validation="ValidateDate"></MudDatePicker>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                     <MudSelect @bind-Value="appointment.AppointmentType" Label="Appointment Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
+                     <MudSelect @bind-Value="appointment.AppointmentType" Label="Appointment Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select Appointment Type"Clearable>
                          <MudSelectItem Value="@("ABC")" />
                          <MudSelectItem Value="@("DEF")" />
                      </MudSelect>
@@ -45,13 +45,13 @@
                         <MudText Typo="Typo.h6">Accessories Details:</MudText>
                     </MudItem>
 
-                    @foreach (var details in appointmentDetails)
+                    @foreach (var details in Details)
                     {
                         <MudItem xs="12" sm="12" md="4" lg="4">
-                            <MudTextField @bind-Value="details.Activity_Type" Label="Accessories Type" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                            <MudTextField @bind-Value="details.Activity_Type" Label="Accessories Type" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Accessories Name"></MudTextField>
                         </MudItem>
                         <MudItem xs="12" sm="12" md="4" lg="4">
-                            <MudTextField @bind-Value="details.Description" Label="Accessories Descripition" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                            <MudTextField @bind-Value="details.Description" Label="Accessories Descripition" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Description"></MudTextField>
                         </MudItem>
                         <MudItem xs="12" sm="12" md="4" lg="4">
                             <MudButton Variant="Variant.Text" Color="Color.Default" Size="Size.Small" @onclick="@(()=> removeFile(details))" Class="mt-2"><MudIcon Icon="@Icons.Material.Filled.Remove" Size="Size.Small" Color="Color.Default" />Remove Item</MudButton>
@@ -72,8 +72,8 @@
 
     Tbl_Appointment_Header appointment = new();
     Tbl_Appointment_Details appdetails = new();
-    List<Tbl_Appointment_Header> appointmentheder = new();
-    List<Tbl_Appointment_Details> appointmentDetails = new();
+    List<Tbl_Appointment_Header> appointments = new();
+    List<Tbl_Appointment_Details> Details = new();
 
     private void OnInitializedAsync()
     {
@@ -82,12 +82,12 @@
 
     private async Task AddFeild()
     {
-        appointmentDetails.Add(new Tbl_Appointment_Details());
+        Details.Add(new Tbl_Appointment_Details());
     }
 
     private void removeFile(Tbl_Appointment_Details detailsData)
     {
-        appointmentDetails.Remove(detailsData);
+        Details.Remove(detailsData);
     }
 
     private string ValidateDate(DateTime? toDate)
