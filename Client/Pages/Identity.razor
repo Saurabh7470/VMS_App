@@ -2,64 +2,132 @@
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
 @inject NavigationManager navigate
-
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 <MudCard Elevation="4" Outlined Class="m-2">
-    <MudCardHeader>
+     <MudCardHeader>
          <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
-    </MudCardHeader>
+     </MudCardHeader>
 
 
-<MudCardContent>
+     <MudCardContent>
 
-    <MudText Typo="Typo.h5" Style="text-align:center" Class="mb-3" Color="Color.Dark">Identity</MudText>
+         <MudText Typo="Typo.h5" Style="text-align:center" Class="mb-3" Color="Color.Dark">Identity</MudText>
          <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5" />
 
-    <MudForm @ref="form">
-       <br/>
+         <MudForm @ref="form">
+             <MudGrid>
+                 <MudItem md="12" sm="12" xs="12" Class="justify-content-center d-flex">
+                     <MudButton Variant="Variant.Filled" OnClick="Addnew" Color=Color.Tertiary Class="mt-5 mb-3"><MudIcon Icon="@Icons.Material.Filled.Add" Color="Color.Default" /> Add</MudButton>
+                 </MudItem>
+             </MudGrid>
 
-         <MudGrid>
-             <MudItem md="6" xs="12" sm=12>
-                 <MudText>ID Type</MudText>
-                <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedId" SearchFunc="@getId" ToStringFunc="@(x=> x.DepartmentId)" Required="true" RequiredError="Please Select the Department!">
 
-                 </MudAutocomplete>
-             </MudItem>
-            <MudItem md="6" xs="12" sm=12>
-                 <MudText> Description</MudText>
-                 <MudTextField Placeholder="Description" T="string" Lines="3" Class="mt-2" @bind-Value="User.Description" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Description" AdornmentColor="Color.Default" Required="true" RequiredError="Please add the Description!"></MudTextField>
-            </MudItem>
-        </MudGrid>
+             <MudDataGrid Items="identityTypes">
+                 <Columns>
+                     <PropertyColumn Property="x => x.IdType" Title="IdType" />
+                     <PropertyColumn Property="x => x.Description" />
 
-         <MudCardActions Style="justify-content:center">
-             <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-5 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
-         </MudCardActions>
+                     <TemplateColumn CellClass="d-flex justify-end" Title="Action">
+                         <CellTemplate>
+                             <MudStack Row>
 
-        </MudForm>
-        </MudCardContent>
-        </MudCard>
 
- @code {
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>Edit(context.Item))" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Primary"></MudIconButton>
+                                @if (employee.Status == 1)
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.CheckCircle" OnClick="active" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Success" Disabled="@Disable"></MudIconButton>
+                                }
+                                else
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.Cancel" OnClick="deactive" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Error" Disabled="@Disable2"></MudIconButton>
+                                }
+                            </MudStack>                           
+                         </CellTemplate>
+                     </TemplateColumn>
+                 </Columns>
+             </MudDataGrid>
+         </MudForm>
+     </MudCardContent>
+ </MudCard>
+
+
+
+
+ <MudDialog @bind-IsVisible="visible" Options="dialogOptions">
+     <DialogContent>
+        <MudIconButton Icon="@Icons.Material.Filled.Cancel" Style=" text-align: centemar; margin-left:92%" OnClick="cancel" Size="@Size.Large" Variant="@Variant.Text" Color="@Color.Error"></MudIconButton>
+         <MudForm @ref="form">
+             <MudGrid>
+                 <MudItem md="12" xs="12" sm=12 lg="12">
+
+                     <MudAutocomplete T="string" Label="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="identityType.IdType" SearchFunc="@getId" ToStringFunc="@(x=> x)" Required="true" RequiredError="Please Select the IdType!">
+
+                     </MudAutocomplete>
+                 </MudItem>
+
+                 <MudItem md="12" xs="12" sm=12 lg="12">
+
+                     <MudTextField T="string" Label="Description" Lines="3" @bind-Value="identityType.Description" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Description" AdornmentColor="Color.Default" Required="true" RequiredError="Please add the Description!"></MudTextField>
+                 </MudItem>
+             </MudGrid>
+            <br />
+            <MudCardActions Style="justify-content:center">
+                <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-4 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
+            </MudCardActions>
+         </MudForm>
+
+     </DialogContent>
+     <DialogActions>
+     
+     </DialogActions>
+ </MudDialog>
+
+
+
+
+
+@code {
 
     MudForm form = new MudForm();
+    private bool visible;
+    private bool Disable = false;
+    private bool Disable2 = true;
+
+    private DialogOptions dialogOptions = new() { FullWidth = true };
 
 
 
     List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
     Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
-    Tbl_EmployeeMaster selectedId = new Tbl_EmployeeMaster();
 
-    List<Tbl_DepartmentMaster> deparments = new List<Tbl_DepartmentMaster>();
-    Tbl_DepartmentMaster selectedDepartment = new Tbl_DepartmentMaster();
+   
 
-    List<Tbl_IdentityType> Users = new List<Tbl_IdentityType>();
-    Tbl_IdentityType User = new Tbl_IdentityType();
+    List<Tbl_IdentityType> identityTypes = new List<Tbl_IdentityType>();
+    Tbl_IdentityType identityType = new Tbl_IdentityType();
+
+    Tbl_IdentityType selectedId = new Tbl_IdentityType();
+
+    List<string> IdType;
+
 
     protected async override Task OnInitializedAsync()
     {
-        employees.Add(new Tbl_EmployeeMaster() {Id=1});
-        employees.Add(new Tbl_EmployeeMaster() {Id=2 });
-        
+
+        IdType = new List<string> { "AadharCard", "VoterId" };
+
+        identityTypes.Add(new Tbl_IdentityType() { Id = 1, IdType = "AadharCard", Description = "Valid" });
+        identityTypes.Add(new Tbl_IdentityType() { Id = 3, IdType = "VoterId", Description = "Invalid" });
+
+    }
+
+    public void Addnew()
+    {
+        identityType = new();
+        visible = true;
+        StateHasChanged();
+
     }
 
     private void Back()
@@ -67,33 +135,111 @@
         navigate.NavigateTo("/");
     }
 
-    public void Submit()
+    private void Edit( Tbl_IdentityType item)
+
     {
+        identityType = item;
+        
+        // selectedId = identityTypes.Where(a=> a.IdType == item.IdType).SingleOrDefault();
+
+        visible = true;
+        StateHasChanged();
 
     }
 
-    public async Task<IEnumerable<Tbl_EmployeeMaster>> getId(string value)
+
+    public void active()
+    {
+        Disable = true;
+    }
+
+    public void deactive()
+    {
+        Disable2 = false;
+    }
+
+    async Task cancel()
+    {
+        visible = false;
+        StateHasChanged();
+    }
+
+
+
+    public async Task<IEnumerable<string>> getId(string value)
     {
 
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return employees;
-        return employees.Where(x => x.DepartmentId.Contains(value));
+            return IdType;
+        return IdType.Where(x => x.Contains(value)); 
     }
 
-
-    private async Task<IEnumerable<Tbl_EmployeeMaster>> Search1(string value)
+    private async Task<IEnumerable<Tbl_IdentityType>> Search1(string value)
     {
         // In real life use an asynchronous function for fetching data from an api.
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return employees; ;
-        return employees.Where(x => x.DepartmentId.Contains(value));
+            return identityTypes;
+        return identityTypes.Where(x => x.IdType.Contains(value));
     }
 
 
+
+
+
+    async Task Cancel()
+    {
+        visible = false;
+        StateHasChanged();
     }
+
+
+
+    public async void Submit()
+    {
+
+        await form.Validate();
+        if (form.IsValid)
+        {
+            if (identityType.Id == 0)
+                identityTypes.Add(new Tbl_IdentityType()
+                    {
+                        Id = identityTypes.Count() + 1,
+                        IdType = identityType.IdType,
+                        Description = identityType.Description
+
+                    });
+        }
+        else
+        {
+            var item = identityTypes.Find(a => a.Id == identityType.Id);
+
+            if (item != null)
+            {
+                identityTypes.Remove(item);
+
+                identityTypes.Add(new Tbl_IdentityType()
+                    {
+                        Id = item.Id,
+                        IdType = identityType.IdType,
+                        Description = identityType.Description
+                    });
+            }
+        }
+        // await form.ResetAsync();
+           visible = false;
+           StateHasChanged();
+        }
+
+    }
+
+
+
+   
+     
+

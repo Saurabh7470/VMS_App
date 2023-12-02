@@ -11,7 +11,7 @@ namespace VMS_App.Shared.Models
         public int Id { get; set; }
         public string DepartmentCode { get; set; }
         public string DepartmentName { get; set; }
-        public int HOD { get; set; }
+        public string HOD { get; set; }
         public int Del_Flag { get; set; }
         public string CreatedOn { get; set; }
         public string CreatedBy { get; set; }

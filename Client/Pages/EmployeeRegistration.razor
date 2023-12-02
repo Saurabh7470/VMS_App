@@ -2,7 +2,8 @@
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
 @inject NavigationManager navigate
-
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 <MudCard Elevation="4" Outlined Class="m-2">
     <MudCardHeader>
@@ -10,64 +11,119 @@
     </MudCardHeader>
 
 
-
 <MudCardContent>
     <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Employee Registration</MudText>
          <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5" />
 
     <MudForm @ref="form">
-        <br />
 
-         <MudGrid>
-             <MudItem md="6" xs="12" sm=12>
-                 <MudText>Employee Number</MudText>
-                    <MudTextField Placeholder="Employee Number" MaxLength="10" T="string" Class="mt-2" @bind-value="employee.EmployeeNumber" Variant="Variant.Outlined" Margin="Margin.Dense" Required= "true" RequiredError="Please Enter Employee Number!"></MudTextField>
-             </MudItem>
-            <MudItem md="6" xs="12" sm=12>
-                 <MudText>Name</MudText>
-                     <MudTextField Placeholder="Name" T="string" Class="mt-2" @bind-value="employee.Name" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" Required="true" RequiredError="Please Enter Your Name!"></MudTextField>
-            </MudItem>
-        </MudGrid>
+             <MudGrid>
+                 <MudItem md="12" sm="12" xs="12" Class="justify-content-center d-flex">
+                     <MudButton Variant="Variant.Filled" OnClick="Addnew" Color=Color.Tertiary Class="mt-5 mb-3"><MudIcon Icon="@Icons.Material.Filled.Add" Color="Color.Default" /> Add</MudButton>
+                 </MudItem>
+             </MudGrid>
 
-        <MudGrid>
-            <MudItem md="6" xs="12" sm=12>
-                 <MudText>Email</MudText>
-                     <MudTextField Placeholder="Email" T="string" Validation="@Email" Class="mt-2" @bind-value="employee.Email" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Email" AdornmentColor="Color.Default" Required="true" RequiredError="Please Enter Your Email!"></MudTextField>
-             </MudItem>
-             <MudItem md="6" xs="12" sm=12>
-                 <MudText>Mobile</MudText>
-                     <MudTextField Placeholder="Mobile" T="string" Validation="@Mob" MaxLength="10" Class="mt-2" @bind-Value="employee.Mobile" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Phone" AdornmentColor="Color.Default" Required="true" RequiredError=" Please Enter Your Mobile Number!"></MudTextField>
-             </MudItem>
-         </MudGrid>
 
-         <MudGrid>
-             <MudItem md="6" xs="12" sm=12>
-                 <MudText>Department</MudText>
-                 <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentName)" Required="true" RequiredError="Please Select the Department!">
+
+             <MudDataGrid Items="employees">
+                 <Columns>
+                     <PropertyColumn Property="x => x.Name" Title="Name" />
+                     <PropertyColumn Property="x => x.Email" />
+                     <PropertyColumn Property="x => x.Mobile" />
+                     <PropertyColumn Property="x => x.DepartmentId" />                   
+                     <PropertyColumn Property="x => x.Grade" />
+                     <PropertyColumn Property="x => x.Designation" />
+
+
+
+                     <TemplateColumn CellClass="d-flex justify-end" Title="Action">
+                         <CellTemplate>
+
+                             <MudStack Row>
+
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>Edit(context.Item))" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Primary" ></MudIconButton>
+                                @if (employee.Status == 1)
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.CheckCircle" OnClick="active" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Success" Disabled="@Disable"></MudIconButton>
+                                }
+                                else
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.Cancel" OnClick="deactive" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Error" Disabled="@Disable2"></MudIconButton>
+                                }
+                            </MudStack>
+
+                           
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+            </MudDataGrid>
+
+
+
+
+
+            <MudDialog @bind-IsVisible="visible" Options="dialogOptions" OnBackdropClick="OverlayClickHandler">
+
+                <DialogContent>
+                    <MudIconButton Icon="@Icons.Material.Filled.Cancel" Style=" text-align: centemar; margin-left:92%" OnClick="cancel" Size="@Size.Large" Variant="@Variant.Text" Color="@Color.Error"></MudIconButton>
+                     <MudForm @ref="form" >
+                         <MudGrid>
+                             <MudItem md="12" xs="12" sm=12 lg="12">
+
+                                 <MudTextField Label="First Name" T="string" @bind-Value="FirstName"  Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" Required="true" RequiredError="Please Enter Your First Name!"></MudTextField>
+                             </MudItem>
+                             <MudItem md="12" xs="12" sm=12 lg="12">
+
+                                 <MudTextField Label="Last Name" T="string" @bind-Value="LastName" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Person" Required="true" RequiredError="Please Enter Your Last Name!"></MudTextField>
+                             </MudItem>
+                         
+
                      
-                 </MudAutocomplete>
-             </MudItem>
-             <MudItem md="6" xs="12" sm=12>
-                 <MudText>Grade</MudText>
-                 <MudAutocomplete T="Tbl_EmployeeMaster" Class="mt-2" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required="true" RequiredError="Please Select the Grade!"></MudAutocomplete>
-                                
-             </MudItem>
-         </MudGrid>
+                             <MudItem md="12" xs="12" sm=12 lg="12">
 
-         <MudGrid>
-             <MudItem md="6" xs="12" sm=12>
-                 <MudText>Designation</MudText>
-                 <MudAutocomplete T="Tbl_EmployeeMaster" Placeholder="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="selectedDesignation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x.Designation )" Required="true" RequiredError="Please Select the Designation!">
+                                 <MudTextField Label="Email" T="string" Validation="@Email" @bind-Value="employee.Email" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Email" AdornmentColor="Color.Default" Required="true" RequiredError="Please Enter Your Email!"></MudTextField>
+                             </MudItem>
+                             <MudItem md="12" xs="12" sm=12 lg="12">
 
-                 </MudAutocomplete>
-             </MudItem>            
-         </MudGrid>
-         
-        <br />
-        <MudCardActions Style="justify-content:center">
-            <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-5 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
-        </MudCardActions>
+                                 <MudNumericField Label="Mobile" T="string" Validation="@Mob" MaxLength="10" @bind-Value="employee.Mobile" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Phone" AdornmentColor="Color.Default" Required="true" RequiredError=" Please Enter Your Mobile Number!" HideSpinButtons></MudNumericField>
+                             </MudItem>
+                         
+                             <MudItem md="12" xs="12" sm=12 lg="12">
+
+                                 <MudAutocomplete T="Tbl_DepartmentMaster" Label="Department Id" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentCode)" Required="true" RequiredError="Please Select the Department!">
+
+                                 </MudAutocomplete>
+                             </MudItem>
+                             <MudItem md="12" xs="12" sm=12 lg="12">
+
+                                 <MudAutocomplete T="string" Label="Grade" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="employee.Grade" SearchFunc="@getGrade" ToStringFunc="@(x=> x )" Required="true" RequiredError="Please Select the Grade!"></MudAutocomplete>
+
+                             </MudItem>
+                        
+
+                         
+                             <MudItem md="12" xs="12" sm=12 lg="12">
+
+                                 <MudAutocomplete T="string" Label="Designation" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="employee.Designation" SearchFunc="@getDesignation" ToStringFunc="@(x=> x )" Required="true" RequiredError="Please Select the Designation!">
+
+                                 </MudAutocomplete>
+                             </MudItem>
+                         </MudGrid>
+
+                         <br />
+                         <MudCardActions Style="justify-content:center">
+                             <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-4 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
+                         </MudCardActions>
+                        
+                     </MudForm>
+
+                 </DialogContent>
+               
+             </MudDialog>      
+             
     </MudForm>
+
+         
 
 </MudCardContent>
 </MudCard>
@@ -75,40 +131,180 @@
 
  @code {
     MudForm form = new MudForm();
+    private bool visible;
+
+
+    private bool Disable = false;
+    private bool Disable2 = true;
+
+
+
+
+
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+
+
+    private DialogOptions dialogOptions = new() { FullWidth = true };
 
 
 
     List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
     Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
+    Tbl_EmployeeMaster selectedId = new Tbl_EmployeeMaster();
     Tbl_EmployeeMaster selectedDesignation = new Tbl_EmployeeMaster();
+    Tbl_EmployeeMaster selectedGrade = new Tbl_EmployeeMaster();
 
-    List<Tbl_DepartmentMaster> deparments = new List<Tbl_DepartmentMaster>();
+
+    List<Tbl_DepartmentMaster> departments = new List<Tbl_DepartmentMaster>();
     Tbl_DepartmentMaster selectedDepartment = new Tbl_DepartmentMaster();
 
-
-
-    protected async override Task OnInitializedAsync()
-    {
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode="101", DepartmentName = "IT" });
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode="102", DepartmentName = "Finance" });
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 3, DepartmentCode="103", DepartmentName = "EDUCATION" });
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 4, DepartmentCode="104", DepartmentName = "SALES" });
-
-        employees.Add(new Tbl_EmployeeMaster() { Id = 1, Designation = "HOD" });
-        employees.Add(new Tbl_EmployeeMaster() { Id = 2, Designation = "Security" });
-        employees.Add(new Tbl_EmployeeMaster() { Id = 1, Designation = "DR" });
-
-
-    }
-
-    private void Back()
-    {
-        navigate.NavigateTo("/");
-    }
+    List<string> Designation;
+    List<string> Grade;
 
    
-    public void Submit()
+
+    protected async override Task OnInitializedAsync()
+
     {
+        Designation = new List<string> { "DEVELOPER", "PM", "JD" };
+        Grade = new List<string> { "A1", "A2","A3"  };
+
+
+        departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT", HOD = "1" });
+        departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD = "2" });
+        departments.Add(new Tbl_DepartmentMaster() { Id = 3, DepartmentCode = "103", DepartmentName = "EDUCATION", HOD = "3" });
+        departments.Add(new Tbl_DepartmentMaster() { Id = 4, DepartmentCode = "104", DepartmentName = "SALES", HOD = "4" });
+
+
+        // employees.Add(new Tbl_EmployeeMaster() { Id = 1, Name = "Purnima", Email = "purnima@gmail.com", Mobile ="9179744670", DepartmentId ="0", Designation = "HOD", Grade= "M1", Status=1});
+        // employees.Add(new Tbl_EmployeeMaster() { Id = 2, Name = "Sneha", Email = "sneha@gmail.com", Mobile = "9691338727", DepartmentId = "1", Designation = "JD", Grade = "C1" , Status=0});
+
+    }
+
+
+
+    private void Back()
+     
+    {
+        navigate.NavigateTo("/");
+
+    }
+
+
+    private async void Edit(Tbl_EmployeeMaster item)
+    {
+        if(item is not null)
+        {
+            employee = item;
+            try
+            {
+                FirstName = item.Name.Split(' ')[0];
+                LastName = item.Name.Split(' ')[1];
+            }
+            catch(Exception ex)
+            {
+                // FirstName = item.Name;
+                // LastName = item.Name;
+
+                // selectedGrade = new();
+                // selectedDesignation = new();
+            }
+
+
+            visible = true;
+            StateHasChanged();
+        }
+    }
+
+
+
+    public void Addnew()
+
+    {
+        employee = new();
+        employee.Name = string.Empty;
+        selectedDepartment = new();
+        selectedGrade = new();
+        selectedDesignation = new();
+        visible = true;
+        StateHasChanged();
+    }
+
+
+    async Task cancel()
+
+    {
+        visible = false;
+        StateHasChanged();
+    }
+
+
+
+    public void active()
+    {
+        Disable = true;
+    }
+
+    public void deactive()
+    {
+        Disable2 = false;
+    }
+
+
+
+    public async void Submit()
+    {
+
+        await form.Validate();
+        if (form.IsValid)
+        {
+            if (employee.Id == 0)
+            {
+                employees.Add(new Tbl_EmployeeMaster()
+                    {
+                        Id = employees.Count() + 1,
+                        Name = FirstName + " " + LastName,
+                        Email = employee.Email,
+                        Mobile = employee.Mobile,
+                       
+                        // DepartmentId = (employees.Count() + 100).ToString(),
+                        DepartmentId = selectedDepartment.DepartmentCode,
+                        Grade = employee.Grade,
+                        Designation = employee.Designation,
+                        Status = 1
+
+                    });
+            }
+            else
+            {
+                var item = employees.Find(a => a.Id == employee.Id);
+
+                if (item != null)
+                {
+                    employees.Remove(item);
+
+                    employees.Add(new Tbl_EmployeeMaster()
+                        {
+                            Id = item.Id,
+                            Name = FirstName + " " + LastName,
+                            Email = employee.Email,
+                            Mobile = employee.Mobile,
+                            // DepartmentId = (employees.Count() + 100).ToString(),
+                            DepartmentId = selectedDepartment.DepartmentCode,
+                            Grade = employee.Grade,
+                            Designation = employee.Designation,
+                            Status=1
+
+                        });
+                }
+            }
+
+            await form.ResetAsync();
+            visible = false;
+            StateHasChanged();
+        }
 
     }
 
@@ -119,11 +315,11 @@
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return deparments;
-        return deparments.Where(x => x.DepartmentName.Contains(value));
+            return departments;
+        return departments.Where(x => x.DepartmentName.Contains(value));
     }
-        
-    
+
+
 
     private async Task<IEnumerable<Tbl_DepartmentMaster>> Search1(string value)
     {
@@ -132,24 +328,21 @@
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return deparments;
-        return deparments.Where(x => x.DepartmentName.Contains(value));
+            return departments;
+        return departments.Where(x => x.DepartmentName.Contains(value));
     }
-   
 
 
 
-
-
-    public async Task<IEnumerable<Tbl_EmployeeMaster>> getDesignation(string value)
+    public async Task<IEnumerable<string>> getDesignation(string value)
     {
 
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return employees;
-        return employees.Where(x => x.Designation.Contains(value));
+            return Designation;
+        return Designation.Where(x => x.Contains(value));
     }
 
     private async Task<IEnumerable<Tbl_EmployeeMaster>> Search2(string value)
@@ -163,11 +356,37 @@
         return employees.Where(x => x.Designation.Contains(value));
     }
 
-    
-    public bool Email(String val)
+
+    public async Task<IEnumerable<string>> getGrade(string value)
     {
-        Regex regex = new Regex("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
-        return regex.IsMatch(val ?? "valid");
+
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return Grade ;
+        return  Grade.Where(x => x.Contains(value));
+
+    }
+
+
+
+    private async Task<IEnumerable<Tbl_EmployeeMaster>> Search3(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return employees;
+        return employees.Where(x => x.Grade.Contains(value));
+    }
+
+
+    public bool Email(string email)
+    {
+        Regex regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"); // Regular expression for email validation
+        return regex.IsMatch(email ?? "Invalid Email Address");
     }
 
     public bool Mob(String Val)
@@ -176,7 +395,10 @@
         return regex.IsMatch(Val ?? "valid");
     }
 
-
+    private void OverlayClickHandler()
+    {
+        
+    }
 
 }
 

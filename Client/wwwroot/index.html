@@ -1,6 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
 
+    .loader-12 {
+        align-content:center;
+        width: 48px;
+        height: 48px;
+        border: 3px dotted #000;
+        border-style: solid solid dotted dotted;
+        border-radius: 50%;
+        display: inline-block;
+        position: center;
+        -webkit-animation: rotation 2s linear infinite;
+        animation: rotation 2s linear infinite;
+    }
+
+        .loader-12:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+           
+            border: 3px dotted #26A69A;
+            border-style: solid solid dotted;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            -webkit-animation: rotationBack 1s linear infinite;
+            animation: rotationBack 1s linear infinite;
+            transform-origin: center center;
+        }
+
+    .loader-106 {
+        width: 32px;
+        height: 90px;
+        margin-bottom: 20px;
+        position: relative;
+        border-radius: 50% 50% 0 0;
+        border-bottom: 10px solid #FF3D00;
+        background-color: #000;
+        background-image: radial-gradient(ellipse at center, #000 34%, #FF3D00 35%, #FF3D00 54%, # 55%), linear-gradient(#FF3D00 10px, transparent 0);
+        background-size: 28px 28px;
+        background-position: center 20px, center 2px;
+        background-repeat: no-repeat;
+        -webkit-animation: animloader106back 1s linear infinite alternate;
+        animation: animloader106back 1s linear infinite alternate;
+    }
+
+        .loader-106::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0px 15px #FF3D00 inset;
+            top: 67px;
+        }
+
+       
+        .loader-106::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        width: 34px;
+        height: 34px;
+        top: 112%;
+        background: radial-gradient(ellipse at center, #ffdf00 8%, rgba(249, 62, 0, 0.6) 24%, rgba(0, 0, 0, 0) 100%);
+        border-radius: 50% 50% 0;
+        background-repeat: no-repeat;
+        background-position: -44px -44px;
+        background-size: 100px 100px;
+        box-shadow: 4px 4px 12px 0px rgba(255, 61, 0, 0.5);
+        -webkit-animation: animloader106 1s linear infinite alternate;
+        animation: animloader106 1s linear infinite alternate;
+    }
+
+   
+       
+</style>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -15,15 +98,24 @@
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <!--<link href="css/splash.css" rel="stylesheet" />-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 </head>
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
+        <center>
+            <!--<section><span class="loader-106" style="margin-top:28%" > </span></section>-->
+
+            <section><span class="loader-12" style="margin-top:28%"> </span></section>
+            <!--<svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
             <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        </svg>-->
+            <!--<div class="loading-progress-text"></div>-->
+        </center>
     </div>
 
     <div id="blazor-error-ui">
@@ -34,7 +126,7 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-
+   
 </body>
 
 </html>

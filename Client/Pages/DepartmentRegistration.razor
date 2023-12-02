@@ -5,97 +5,216 @@
 
 
 <MudCard Elevation="4" Outlined Class="m-2">
-    <MudCardHeader>
+     <MudCardHeader>
          <MudButton OnClick="Back" Variant="Variant.Filled"><MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small" />Back</MudButton>
-    </MudCardHeader>
+     </MudCardHeader>
+     <MudCardContent>
 
-
-
-<MudCardContent>
-
-    <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Department Registration</MudText>
+         <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Department Registration</MudText>
          <MudDivider Light DividerType="DividerType.Middle" Class="m-2 mb-5" />
-    <MudForm @ref="form">
-        <br />
+         <MudForm @ref="form">
 
-         <MudGrid>
-             <MudItem md="6" xs="12" sm=12>
-                 <MudText>Department Code</MudText>
-                <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" MaxLength="10" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentCode)" Required="true" RequiredError="Please Select the Department!">
+             <MudGrid>
+                 <MudItem md="12" sm="12" xs="12" Class="justify-content-center d-flex">
+                     <MudButton Variant="Variant.Filled" OnClick="Addnew" Color=Color.Tertiary Class="mt-5 mb-3"><MudIcon Icon="@Icons.Material.Filled.Add" Color="Color.Default" /> Add</MudButton>
+                 </MudItem>
+             </MudGrid>
 
-                  </MudAutocomplete>
-              </MudItem>
-             <MudItem md="6" xs="12" sm=12>
-                  <MudText> Department Name</MudText>
-                  <MudAutocomplete T="Tbl_DepartmentMaster" Class="mt-2" Placeholder="Department" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentName)" Required="true" RequiredError="Please Select the Department!">
+             <MudDataGrid Items="departments">
+                 <Columns>
+                   
+                     <PropertyColumn Property="x => x.DepartmentName" />
+                     <PropertyColumn Property="x => x.HOD" Title="HOD" />
+                     <TemplateColumn CellClass="d-flex justify-end" Title="Action">
+                         <CellTemplate>
+                             <MudStack Row>
 
-                  </MudAutocomplete>
-             </MudItem>
-         </MudGrid>
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>Edit(context.Item))" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Primary"></MudIconButton>
+                                @if (employee.Status == 1)
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.CheckCircle" OnClick="active" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Success" Disabled="@Disable"></MudIconButton>
+                                }
+                                else
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.Cancel" OnClick="deactive" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Error" Disabled="@Disable2"></MudIconButton>
+                                }
+                            </MudStack>                          
+                         </CellTemplate>
+                     </TemplateColumn>
+                 </Columns>
+             </MudDataGrid>
+             </MudForm>
 
-         <MudGrid>
-             <MudItem md="6" xs="12" sm=12>
-                  <MudText>HOD</MudText>
-                      <MudTextField Placeholder="HOD" T="string"  Class="mt-2" @bind-value="employee.Designation" Variant="Variant.Outlined" Margin="Margin.Dense"  Required="true" RequiredError="Please Enter Your Designation!"></MudTextField>
-              </MudItem>
-
-          </MudGrid>
 
 
-          <br />
-          <MudCardActions Style="justify-content:center">
-              <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-5 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
-          </MudCardActions>
-      </MudForm>
- </MudCardContent>
- </MudCard>
+
+             <MudDialog @bind-IsVisible="visible" Options="dialogOptions">
+                 <DialogContent>
+                <MudIconButton Icon="@Icons.Material.Filled.Cancel" Style=" text-align: centemar; margin-left:92%" OnClick="cancel" Size="Size.Large" Color="Color.Error"></MudIconButton>
+                     <MudForm @ref="form">
+
+                         <MudGrid>
+
+                             <MudItem md="12" xs="12" sm=12 lg="12">
+
+                                 <MudTextField Label="Department Name" T="string" @bind-Value="department.DepartmentName" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter the Department Name!"></MudTextField>
+                             </MudItem>
+
+                             <MudItem md="12" xs="12" sm=12 lg="12">
+
+                                 <MudAutocomplete T="string" Label="HOD" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="department.HOD" SearchFunc="@getDepartment" ToStringFunc="@(x=> x)" Required="true" RequiredError="Please Select the Department!">
+
+                                 </MudAutocomplete>
+                             </MudItem>
+                         </MudGrid>
+
+                         <br />
+                         <MudCardActions Style="justify-content:center">
+                             <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-4 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
+                         </MudCardActions>
+                         
+                     </MudForm>
+
+
+                 </DialogContent>
+               
+             </MudDialog>            
+
+    </MudCardContent>
+</MudCard>
 
 
 @code {
     MudForm form = new MudForm();
-
+    private bool visible;  
+    private bool Disable = false;
+    private bool Disable2 = true;
+    private DialogOptions dialogOptions = new() { FullWidth = true };
 
 
     List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
     Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
     Tbl_EmployeeMaster selectedDesignation = new Tbl_EmployeeMaster();
 
-    List<Tbl_DepartmentMaster> deparments = new List<Tbl_DepartmentMaster>();
+    List<Tbl_DepartmentMaster> departments = new List<Tbl_DepartmentMaster>();
+    Tbl_DepartmentMaster department = new Tbl_DepartmentMaster();
     Tbl_DepartmentMaster selectedDepartment = new Tbl_DepartmentMaster();
+
+    List<string> HOD;
 
 
 
     protected async override Task OnInitializedAsync()
     {
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT" });
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance" });
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 3, DepartmentCode = "103", DepartmentName = "EDUCATION" });
-        deparments.Add(new Tbl_DepartmentMaster() { Id = 4, DepartmentCode = "104", DepartmentName = "SALES" });
 
+        HOD = new List<string> { "DEVELOPER", "PM", "JD" };
 
+        departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT" , HOD="DEVLOPER"});
+        departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD="JD" });
+       
     }
+
+
 
     private void Back()
     {
         navigate.NavigateTo("/");
     }
 
-
-    public async Task Submit()
+    public void Addnew()
     {
-        
+
+        department = new();
+        selectedDepartment = new();
+        // employee.Equals(null);
+        visible = true;
+        StateHasChanged();
+
     }
 
 
-    public async Task<IEnumerable<Tbl_DepartmentMaster>> getDepartment(string value)
+    async Task cancel()
+    {
+        visible = false;
+        StateHasChanged();
+    }
+
+
+    public async void Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            if (department.Id == 0)
+            {
+
+
+                departments.Add(new Tbl_DepartmentMaster()
+                    {
+
+                         Id = departments.Count() + 1,
+                         DepartmentCode = (departments.Count() + 100).ToString(),
+                        DepartmentName = department.DepartmentName,
+                        HOD = department.HOD
+                    });
+            }
+            else
+            {
+
+                var item = departments.Find(a => a.Id == department.Id);
+
+                if (item != null)
+                {
+                    departments.Remove(item);
+                    departments.Add(new Tbl_DepartmentMaster()
+
+                    {
+                           Id = item.Id,
+                           DepartmentCode = (departments.Count() + 100).ToString(),
+                          DepartmentName = department.DepartmentName,
+                          HOD = department.HOD
+                });
+                }
+            }
+            // await form.ResetAsync();
+            visible = false;
+            StateHasChanged();
+        }
+
+    }
+
+
+    private void Edit(Tbl_DepartmentMaster item)
+    {
+
+        department = item;
+        selectedDepartment = item;
+        visible = true;
+        StateHasChanged();
+
+    }
+
+    public void active()
+    {
+        Disable = true;
+    }
+
+    public void deactive()
+    {
+        Disable2 = false;
+    }
+
+
+
+    public async Task<IEnumerable<string>> getDepartment(string value)
     {
 
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return deparments;
-        return deparments.Where(x => x.DepartmentName.Contains(value));
+            return HOD;
+        return HOD.Where(x => x.Contains(value));
     }
 
 
@@ -107,8 +226,8 @@
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return deparments;
-        return deparments.Where(x => x.DepartmentName.Contains(value));
+            return departments;
+        return departments.Where(x => x.DepartmentName.Contains(value));
     }
 
     public bool Email(String val)
