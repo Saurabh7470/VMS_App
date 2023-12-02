@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using VMS_App.Client;
 using MudBlazor.Services;
+using VMS_App.Client.LoginService;
+using VMS_App.Client.Service;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

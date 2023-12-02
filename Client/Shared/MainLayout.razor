@@ -1,39 +1,92 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider />
+@inject NavigationManager navi;
+@using VMS_App.Client.LoginService
+@inject LoginService Login
+@inject IJSRuntime jsruntime
+@using Newtonsoft.Json
+
+<MudThemeProvider Theme="MyCustomTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1" Color="Color.Tertiary" Dense="true">
+
+    <MudAppBar Elevation="1" Color="Color.Tertiary">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
         <MudSpacer />
-        <MudMenu Icon="@Icons.Material.Filled.MoreVert" Dense>
-            <MudMenuItem><MudButton Variant="Variant.Text" Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Tertiary" Size="Size.Small" Class="m-2"/>Profile</MudButton></MudMenuItem>
+        <MudText Variant="Variant.Text" Size="Size.Small" Color="Color.Inherit"><MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Small" Color="Color.Inherit" Class="m-2" />@user.Username</MudText>
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" IconColor="Color.Inherit" Dense>
+            <MudMenuItem><MudText Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Tertiary" Size="Size.Small" Class="m-2" />Profile</MudText></MudMenuItem>
             <MudDivider Light DividerType="DividerType.FullWidth" />
-            <MudMenuItem><MudButton Variant="Variant.Text" Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.NotificationsActive" Color="Color.Tertiary" Size="Size.Small" Class="m-2" />Notification</MudButton></MudMenuItem>
+             <MudMenuItem><MudText Variant="Variant.Text" Color="Color.Tertiary" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.NotificationsActive" Color="Color.Tertiary" Size="Size.Small" Class="m-2" />Notification</MudText></MudMenuItem>
              <MudDivider Light DividerType="DividerType.FullWidth" />
-            <MudMenuItem><MudButton Variant="Variant.Text" Color="Color.Error" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error" Size="Size.Small" Class="m-2"/>Logout</MudButton></MudMenuItem>
-        </MudMenu>
-    </MudAppBar>
-    <MudDrawer @bind-Open="@open" Elevation="1">
-        <MudDrawerHeader Dense>
-            <MudText Color="Color.Tertiary"><MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Color="Color.Tertiary"/><b>Visitor Management</b></MudText>
+             <MudMenuItem OnClick="Logout"><MudText Variant="Variant.Text" Color="Color.Error" Size="Size.Small"><MudIcon Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error" Size="Size.Small" Class="m-2" />Logout</MudText></MudMenuItem>
+         </MudMenu>
+     </MudAppBar>
+     <MudDrawer @bind-Open="@open" Elevation="1" ClipMode="DrawerClipMode.Docked">
+         <MudDrawerHeader>
+             <MudText Color="Color.Default" Typo="Typo.body2" Class="m-2"><MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Color="Color.Default" /><b>Visitor Management</b></MudText>
          </MudDrawerHeader>
-        <MudDivider Light DividerType="DividerType.Middle" />
+         <MudDivider Light DividerType="DividerType.Middle" />
          <NavMenu />
      </MudDrawer>
-     <MudMainContent> 
+     <MudMainContent>
          <MudContainer>
-         @Body
-         </MudContainer>
+             @Body
+        </MudContainer>
     </MudMainContent>
 </MudLayout>
 
 @code {
     bool open = true;
+    public static Tbl_user user = new();
 
     void ToggleDrawer()
     {
         open = !open;
     }
-}
+    private void Logout()
+    {
+        Login.Logout();
+        navi.NavigateTo("/Login");
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var AuthenticateUser = await jsruntime.InvokeAsync<string>("sessionStorage.getItem", "AuthenticatedUser");
+        if (!string.IsNullOrEmpty(AuthenticateUser))
+        {
+            Login.AuthenticatedUser = JsonConvert.DeserializeObject<Tbl_user>(AuthenticateUser);
+        }
+
+        if(Login.AuthenticatedUser == null)
+        {
+            navi.NavigateTo("/Login");
+        }
+        else
+        {
+            user = Login.AuthenticatedUser;
+        }
+
+    }
+
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Palette = new PaletteLight()
+            {
+                DrawerBackground = Colors.Grey.Lighten3,
+                Background = Colors.Grey.Lighten5,
+
+            },
+            PaletteDark = new PaletteDark()
+            {
+                Primary = Colors.Blue.Lighten1
+            },
+
+            LayoutProperties = new LayoutProperties()
+            {
+                DrawerWidthLeft = "260px",
+                DrawerWidthRight = "300px"
+            }
+        };
+    }

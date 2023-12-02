@@ -12,16 +12,16 @@ namespace VMS_App.Shared.Models
         public Guid Id { get; set; }
 
         public string AppointmentCode { get; set; }
-        
-        public DateTime FromDate { get; set; }
-        
-        public DateTime ToDate { get; set; }
+
+        public DateTime? FromDate { get; set; } = DateTime.Today;
+
+        public DateTime? ToDate { get; set; } = DateTime.Today;
         
         public string AppointmentType { get; set; }
         
         public Guid Visitor_Id { get; set; }
         
-        public Guid EmployeeID { get; set; }
+        public string EmployeeID { get; set; }
         
         public string Location { get; set; }
         

@@ -14,8 +14,8 @@ namespace VMS_App.Shared.Models
         public string VisitorCode { get; set; }
         
         public string Name { get; set; }
-        
-        public DateTime DBO { get; set; }
+
+        public DateTime? DBO { get; set; } = DateTime.Today;
         
         public string MobileNo { get; set; }
         

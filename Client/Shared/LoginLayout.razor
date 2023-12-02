@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase
+@using MudBlazor
+
+<MudThemeProvider Theme="MyCustomTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+
+
+
+<MudMainContent>
+    @Body
+</MudMainContent>
+
+@code {
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Palette = new PaletteLight()
+            {
+                
+                Background = Colors.Grey.Lighten4,
+
+            },
+        };
+}
