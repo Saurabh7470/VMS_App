@@ -25,7 +25,7 @@
 
              <MudDataGrid Items="safetys">
                  <Columns>
-                     <PropertyColumn Property="x => x.SL" Title="Sl" />
+                     <PropertyColumn Property="x => x.Sl" Title="Sl" />
                      <PropertyColumn Property="x => x.Name" />
                      
 
@@ -72,7 +72,7 @@
     <MudGrid>
         <MudItem md="12" xs="12" sm=12 lg="12">
 
-            <MudTextField @bind-Value="safety.SL" Label="SL" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter Your SL!"></MudTextField>
+            <MudTextField @bind-Value="safety.Sl" Label="SL" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter Your SL!"></MudTextField>
 
         </MudItem>
         <MudItem md="12" xs="12" sm=12 lg="12">
@@ -147,39 +147,36 @@
         await form.Validate();
         if (form.IsValid)
         {
-            if (safety.Id == 0)
-            {
-                safetys.Add(new Tbl_SafetyAlience()
-                    {
-                        Id = safetys.Count()+1,
-                        SL = safety.SL,
-                        Name = safety.Name
-                    });
+            // if (safety.Id == 0)
+            // {
+            //     safetys.Add(new Tbl_SafetyAlience()
+            //         {
+            //             Id = safetys.Count()+1,
+            //             SL = safety.SL,
+            //             Name = safety.Name
+            //         });
             }
             else
             {
-                var item = safetys.Find(a => a.Id == safety.Id);
+                // var item = safetys.Find(a => a.Id == safety.Id);
 
-                if(item != null)
-                {
-                    safetys.Remove(item);
+                // if(item != null)
+                // {
+                //     safetys.Remove(item);
 
-                    safetys.Add(new Tbl_SafetyAlience()
-                        {
-                            Id = item.Id,
-                            SL = safety.SL,
-                            Name = safety.Name
-                        });
-                }
+                //     safetys.Add(new Tbl_SafetyAlience()
+                //         {
+                //             Id = item.Id,
+                //             SL = safety.SL,
+                //             Name = safety.Name
+                //         });
+                // }
 
             }
 
             visible = false;
             StateHasChanged();
         }
-
-    }
-
 
     public void Addnew()
     {
@@ -198,8 +195,8 @@
 
     protected async override Task OnInitializedAsync()
     {
-        safetys.Add(new Tbl_SafetyAlience() { Id = 1, SL= "101", Name = "Purnima" });
-        safetys.Add(new Tbl_SafetyAlience() { Id = 2, SL = "102", Name = "Sneha" });
+        // safetys.Add(new Tbl_SafetyAlience() { Id = 1, SL= "101", Name = "Purnima" });
+        // safetys.Add(new Tbl_SafetyAlience() { Id = 2, SL = "102", Name = "Sneha" });
        
 
 

@@ -107,10 +107,11 @@
     protected async override Task OnInitializedAsync()
     {
 
-        HOD = new List<string> { "DEVELOPER", "PM", "JD" };
+        // HOD = new List<string> { "DEVELOPER", "PM", "JD" };
 
-        departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT" , HOD="DEVLOPER"});
-        departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD="JD" });
+         departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("api/Department");
+        // departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT" , HOD="DEVLOPER"});
+        // departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD="JD" });
        
     }
 
@@ -145,44 +146,40 @@
         await form.Validate();
         if (form.IsValid)
         {
-            if (department.Id == 0)
-            {
+        //     if (department.Id == null)
+        //     {
 
 
-                departments.Add(new Tbl_DepartmentMaster()
-                    {
+        //         departments.Add(new Tbl_DepartmentMaster()
+        //             {
 
-                         Id = departments.Count() + 1,
-                         DepartmentCode = (departments.Count() + 100).ToString(),
-                        DepartmentName = department.DepartmentName,
-                        HOD = department.HOD
-                    });
-            }
-            else
-            {
+        //                  // Id = departments.Count() + 1,
+        //                  DepartmentCode = (departments.Count() + 100).ToString(),
+        //                 DepartmentName = department.DepartmentName,
+        //                 HOD = department.HOD
+        //             });
+        // }
+        //     else
+        //     {
 
-                var item = departments.Find(a => a.Id == department.Id);
+        //         var item = departments.Find(a => a.Id == department.Id);
 
-                if (item != null)
-                {
-                    departments.Remove(item);
-                    departments.Add(new Tbl_DepartmentMaster()
-
-                    {
-                           Id = item.Id,
-                           DepartmentCode = (departments.Count() + 100).ToString(),
-                          DepartmentName = department.DepartmentName,
-                          HOD = department.HOD
-                });
-                }
-            }
-            // await form.ResetAsync();
-            visible = false;
-            StateHasChanged();
+        //         if (item != null)
+        //         {
+        //             departments.Remove(item);
+        //             departments.Add(new Tbl_DepartmentMaster()
+        //             {
+        //                    Id = item.Id,
+        //                    DepartmentCode = (departments.Count() + 100).ToString(),
+        //                   DepartmentName = department.DepartmentName,
+        //                   HOD = department.HOD
+        //         });
+        //         }
+        //     }
+        //     // await form.ResetAsync();
+        //     visible = false;
+        //     StateHasChanged();
         }
-
-    }
-
 
     private void Edit(Tbl_DepartmentMaster item)
     {
@@ -230,7 +227,7 @@
         return departments.Where(x => x.DepartmentName.Contains(value));
     }
 
-    public bool Email(String val)
+    private bool Email(String val)
     {
         Regex regex = new Regex("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
         return regex.IsMatch(val ?? "valid");
@@ -239,4 +236,6 @@
 
 
 }
+}
+  
 

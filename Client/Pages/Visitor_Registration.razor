@@ -2,8 +2,10 @@
 @using System.Text.RegularExpressions
 @using VMS_App.Shared.Models
 @using VMS_App.Client.LoginService
+@using System.Text.Json;
 @inject NavigationManager navigate
 @using VMS_App.Client.Service
+@inject ISnackbar Snackbar
 
 <MudCard Elevation="4" Outlined Class="mt-2">
      <MudCardHeader>
@@ -91,7 +93,7 @@
                  </MudItem>
                  <MudItem xs="8" sm="8" md="3" lg="3">
 
-                     <MudTextField @bind-Value="visitor.Pincode" Label="Pincode" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Your Pincode"></MudTextField>
+                     <MudNumericField T="string" MaxLength="6" @bind-Value="visitor.Pincode" Label="Pincode" Variant="Variant.Outlined" Margin="Margin.Dense" HideSpinButtons Required RequiredError="Enter Your Pincode"></MudNumericField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="12" lg="12">
@@ -99,24 +101,17 @@
                      <MudDivider Light DividerType="DividerType.FullWidth" />
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                     <MudAutocomplete T="Tbl_IdentityType" @bind-Value="selectedId" Label="ID Type" SearchFunc="getId" ToStringFunc="@(x => x.IdType)" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable>
+                     <MudAutocomplete T="Guid?" @bind-Value="visitor.IdType" Label="ID Type" SearchFunc="getId" ToStringFunc="@(x => x.IdType)" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable>
 
                      </MudAutocomplete>
-                     @*  <MudSelect @bind-Value="visitormaster.Id_Type" Label="ID Type" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
-                    <MudSelectItem Value="@("Aadhar Card")" />
-                    <MudSelectItem Value="@("Driving Licence")" />
-                    <MudSelectItem Value="@("Voter ID")" />
-                    <MudSelectItem Value="@("Pan Card")" />
-                    </MudSelect> *@
-                 </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
-                     <MudTextField @bind-Value="visitor.Personal_Id" Label="ID Number" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
+                     <MudTextField @bind-Value="visitor.PersonalId" Label="ID Number" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
 
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4 ">
 
-                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" @bind-File="visitor.Personal_Id" OnFilesChanged="UploadFiles2" Hidden="@false" Required RequiredError="Please Upload Documenet Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
+                     <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg, .jpeg" @bind-File="visitor.PersonalId" OnFilesChanged="UploadFiles2" Hidden="@false" Required RequiredError="Please Upload Documenet Image" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0">
                          <ButtonTemplate>
                              <MudPaper Outlined="true" Class="relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10">
                                  @if (!string.IsNullOrEmpty(Documnet))
@@ -151,7 +146,7 @@
 
     Tbl_IdentityType User = new();
     List<Tbl_IdentityType> Users = new();
-   
+
     Tbl_IdentityType selectedId = new Tbl_IdentityType();
 
     MudForm form = new();
@@ -180,11 +175,11 @@
     // }
     protected async override Task OnInitializedAsync()
     {
-        Users.Add(new Tbl_IdentityType() { IdType = "Aadhar Card" });
-        Users.Add(new Tbl_IdentityType() { IdType = "Voter ID" });
-        Users.Add(new Tbl_IdentityType() { IdType = "Driving Licence" });
-        Users.Add(new Tbl_IdentityType() { IdType = "Pan Card" });
-        Users.Add(new Tbl_IdentityType() { IdType = "Passport" });
+        // Users.Add(new Tbl_IdentityType() { IdType = "Aadhar Card" });
+        // Users.Add(new Tbl_IdentityType() { IdType = "Voter ID" });
+        // Users.Add(new Tbl_IdentityType() { IdType = "Driving Licence" });
+        // Users.Add(new Tbl_IdentityType() { IdType = "Pan Card" });
+        // Users.Add(new Tbl_IdentityType() { IdType = "Passport" });
     }
 
 
@@ -246,14 +241,33 @@
         await Task.Delay(5);
         if (string.IsNullOrEmpty(value))
             return Users;
-        return Users.Where(x => x.IdType.Contains(value));
+        return Users.Where(x => x.Idtype.Contains(value));
 
     }
 
     private async Task Submit()
     {
         await form.Validate();
-        // var response = httpServices.PostData<Tbl_VisitorMaster>("api/")
+        if (form.IsValid)
+        {
+            string json = JsonSerializer.Serialize(visitor);
+            ResponseData response = await httpServices.PostData<Tbl_VisitorMaster>("api/Visitor/", visitor);
+            if (response.Success)
+            {
+                Snackbar.Add("Data Saved Successfully!!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Somthing Wrong Please Try Again !", Severity.Error);
+            }
+        }
+        else
+        {
+            Snackbar.Add("Please Fill Form Correctley!", Severity.Warning);
+        }
+
+        StateHasChanged();
+        OnInitializedAsync();
     }
 
 }

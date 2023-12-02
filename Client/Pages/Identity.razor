@@ -204,33 +204,33 @@
     {
 
         await form.Validate();
-        if (form.IsValid)
-        {
-            if (identityType.Id == 0)
-                identityTypes.Add(new Tbl_IdentityType()
-                    {
-                        Id = identityTypes.Count() + 1,
-                        IdType = identityType.IdType,
-                        Description = identityType.Description
+        // if (form.IsValid)
+        // {
+        //     if (identityType.Id == 0)
+        //         identityTypes.Add(new Tbl_IdentityType()
+        //             {
+        //                 Id = identityTypes.Count() + 1,
+        //                 IdType = identityType.IdType,
+        //                 Description = identityType.Description
 
-                    });
-        }
-        else
-        {
-            var item = identityTypes.Find(a => a.Id == identityType.Id);
+        //             });
+        // }
+        // else
+        // {
+        //     var item = identityTypes.Find(a => a.Id == identityType.Id);
 
-            if (item != null)
-            {
-                identityTypes.Remove(item);
+        //     if (item != null)
+        //     {
+        //         identityTypes.Remove(item);
 
-                identityTypes.Add(new Tbl_IdentityType()
-                    {
-                        Id = item.Id,
-                        IdType = identityType.IdType,
-                        Description = identityType.Description
-                    });
-            }
-        }
+        //         identityTypes.Add(new Tbl_IdentityType()
+        //             {
+        //                 Id = item.Id,
+        //                 IdType = identityType.IdType,
+        //                 Description = identityType.Description
+        //             });
+        //     }
+        // }
         // await form.ResetAsync();
            visible = false;
            StateHasChanged();

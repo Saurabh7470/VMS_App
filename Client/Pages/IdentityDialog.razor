@@ -10,7 +10,7 @@
         <MudGrid> 
             <MudItem md="12" xs="12" sm=12 lg="12">
 
-                <MudAutocomplete T="Tbl_IdentityType" Label="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedId" SearchFunc="@getId" ToStringFunc="@(x=> x.IdType)" Required="true" RequiredError="Please Select the IdType!">
+                <MudAutocomplete T="Tbl_IdentityType" Label="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedId" SearchFunc="@getId" ToStringFunc="@(x=> x.Idtype)" Required="true" RequiredError="Please Select the IdType!">
 
                 </MudAutocomplete>
             </MudItem>
@@ -51,8 +51,8 @@
     protected async override Task OnInitializedAsync()
 
         {
-    Users.Add(new Tbl_IdentityType { Id = 1, IdType = "AadharCard",  });
-    Users.Add(new Tbl_IdentityType { Id = 2, IdType = "VoterId",  });
+    @* Users.Add(new Tbl_IdentityType { Id = 1, IdType = "AadharCard",  });
+    Users.Add(new Tbl_IdentityType { Id = 2, IdType = "VoterId",  }); *@
 
         }
 
@@ -66,7 +66,7 @@
     // if text is null or empty, show complete list
     if (string.IsNullOrEmpty(value))
         return Users;
-    return Users.Where(x => x.IdType.Contains(value));
+    return Users.Where(x => x.Idtype.Contains(value));
         }
 
 
@@ -80,7 +80,7 @@
     // if text is null or empty, show complete list
     if (string.IsNullOrEmpty(value))
         return Users;
-    return Users.Where(x => x.IdType.Contains(value));
+    return Users.Where(x => x.Idtype.Contains(value));
         }
 
 
@@ -97,7 +97,7 @@
                     Users.Add(new Tbl_IdentityType()
                 {
 
-                    IdType = selectedId.IdType,
+                    Idtype = selectedId.Idtype,
                     Description = User.Description
 
                         });

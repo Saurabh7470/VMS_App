@@ -24,13 +24,13 @@
                      </MudSelect>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
-                     <MudTextField T="string" @bind-Value="appointment.EmployeeID" Label="Employee Name" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Employee Name"></MudTextField>
+                     <MudTextField T="Guid?" @bind-Value="appointment.EmployeeId" Label="Employee Name" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Employee Name"></MudTextField>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="4" lg="4">
                      <MudTextField @bind-Value="appointment.Location" Label="Location" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Location"></MudTextField>
                  </MudItem>
                  <MudItem xs="6" sm="6" md="6" lg="6">
-                     <MudSelect T="int" @bind-Value="appointment.Accesory" Label="Accessories" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
+                     <MudSelect T="int?" @bind-Value="appointment.Accesory" Label="Accessories" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
                          <MudSelectItem T="int" Value="@(1)">Yes</MudSelectItem>
                          <MudSelectItem T="int" Value="@(0)">No</MudSelectItem>
                      </MudSelect>
@@ -48,7 +48,7 @@
                     @foreach (var details in Details)
                     {
                         <MudItem xs="12" sm="12" md="4" lg="4">
-                            <MudTextField @bind-Value="details.Activity_Type" Label="Accessories Type" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Accessories Name"></MudTextField>
+                            <MudTextField @bind-Value="details.ActivityType" Label="Accessories Type" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Accessories Name"></MudTextField>
                         </MudItem>
                         <MudItem xs="12" sm="12" md="4" lg="4">
                             <MudTextField @bind-Value="details.Description" Label="Accessories Descripition" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Description"></MudTextField>

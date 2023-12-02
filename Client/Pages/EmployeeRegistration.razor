@@ -90,7 +90,7 @@
                          
                              <MudItem md="12" xs="12" sm=12 lg="12">
 
-                                 <MudAutocomplete T="Tbl_DepartmentMaster" Label="Department Id" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DepartmentCode)" Required="true" RequiredError="Please Select the Department!">
+                                 <MudAutocomplete T="Tbl_DepartmentMaster" Label="Department Id" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DeptCode)" Required="true" RequiredError="Please Select the Department!">
 
                                  </MudAutocomplete>
                              </MudItem>
@@ -152,8 +152,10 @@
 
     List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
     Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
+
     Tbl_EmployeeMaster selectedId = new Tbl_EmployeeMaster();
     Tbl_EmployeeMaster selectedDesignation = new Tbl_EmployeeMaster();
+
     Tbl_EmployeeMaster selectedGrade = new Tbl_EmployeeMaster();
 
 
@@ -168,14 +170,14 @@
     protected async override Task OnInitializedAsync()
 
     {
-        Designation = new List<string> { "DEVELOPER", "PM", "JD" };
-        Grade = new List<string> { "A1", "A2","A3"  };
+        // Designation = new List<string> { "DEVELOPER", "PM", "JD" };
+        // Grade = new List<string> { "A1", "A2","A3"  };
 
 
-        departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT", HOD = "1" });
-        departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD = "2" });
-        departments.Add(new Tbl_DepartmentMaster() { Id = 3, DepartmentCode = "103", DepartmentName = "EDUCATION", HOD = "3" });
-        departments.Add(new Tbl_DepartmentMaster() { Id = 4, DepartmentCode = "104", DepartmentName = "SALES", HOD = "4" });
+        // departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT", HOD = "1" });
+        // departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD = "2" });
+        // departments.Add(new Tbl_DepartmentMaster() { Id = 3, DepartmentCode = "103", DepartmentName = "EDUCATION", HOD = "3" });
+        // departments.Add(new Tbl_DepartmentMaster() { Id = 4, DepartmentCode = "104", DepartmentName = "SALES", HOD = "4" });
 
 
         // employees.Add(new Tbl_EmployeeMaster() { Id = 1, Name = "Purnima", Email = "purnima@gmail.com", Mobile ="9179744670", DepartmentId ="0", Designation = "HOD", Grade= "M1", Status=1});
@@ -260,22 +262,22 @@
         await form.Validate();
         if (form.IsValid)
         {
-            if (employee.Id == 0)
-            {
-                employees.Add(new Tbl_EmployeeMaster()
-                    {
-                        Id = employees.Count() + 1,
-                        Name = FirstName + " " + LastName,
-                        Email = employee.Email,
-                        Mobile = employee.Mobile,
+            // if (employee.Id == 0)
+            // {
+            //     employees.Add(new Tbl_EmployeeMaster()
+            //         {
+            //             Id = employees.Count() + 1,
+            //             Name = FirstName + " " + LastName,
+            //             Email = employee.Email,
+            //             Mobile = employee.Mobile,
                        
-                        // DepartmentId = (employees.Count() + 100).ToString(),
-                        DepartmentId = selectedDepartment.DepartmentCode,
-                        Grade = employee.Grade,
-                        Designation = employee.Designation,
-                        Status = 1
+            //             // DepartmentId = (employees.Count() + 100).ToString(),
+            //             DepartmentId = selectedDepartment.DepartmentCode,
+            //             Grade = employee.Grade,
+            //             Designation = employee.Designation,
+            //             Status = 1
 
-                    });
+            //         });
             }
             else
             {
@@ -283,21 +285,21 @@
 
                 if (item != null)
                 {
-                    employees.Remove(item);
+                    // employees.Remove(item);
 
-                    employees.Add(new Tbl_EmployeeMaster()
-                        {
-                            Id = item.Id,
-                            Name = FirstName + " " + LastName,
-                            Email = employee.Email,
-                            Mobile = employee.Mobile,
-                            // DepartmentId = (employees.Count() + 100).ToString(),
-                            DepartmentId = selectedDepartment.DepartmentCode,
-                            Grade = employee.Grade,
-                            Designation = employee.Designation,
-                            Status=1
+                    // employees.Add(new Tbl_EmployeeMaster()
+                    //     {
+                    //         Id = item.Id,
+                    //         Name = FirstName + " " + LastName,
+                    //         Email = employee.Email,
+                    //         Mobile = employee.Mobile,
+                    //         // DepartmentId = (employees.Count() + 100).ToString(),
+                    //         DepartmentId = selectedDepartment.DepartmentCode,
+                    //         Grade = employee.Grade,
+                    //         Designation = employee.Designation,
+                    //         Status=1
 
-                        });
+                    //     });
                 }
             }
 
@@ -306,7 +308,7 @@
             StateHasChanged();
         }
 
-    }
+    
 
 
     public async Task<IEnumerable<Tbl_DepartmentMaster>> getDepartment(string value){
@@ -316,7 +318,7 @@
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
             return departments;
-        return departments.Where(x => x.DepartmentName.Contains(value));
+        return departments.Where(x => x.DeptCode.Contains(value));
     }
 
 
@@ -329,7 +331,7 @@
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
             return departments;
-        return departments.Where(x => x.DepartmentName.Contains(value));
+        return departments.Where(x => x.DeptName.Contains(value));
     }
 
 
