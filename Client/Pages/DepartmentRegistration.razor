@@ -29,8 +29,7 @@
                      <TemplateColumn CellClass="d-flex justify-end" Title="Action">
                          <CellTemplate>
                              <MudStack Row>
-
-                                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>Edit(context.Item))" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Primary"></MudIconButton>
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=> Edit(context.Item))" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Primary"></MudIconButton>
                                 @if (employee.Status == 1)
                                 {
                                     <MudIconButton Icon="@Icons.Material.Filled.CheckCircle" OnClick="active" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Success" Disabled="@Disable"></MudIconButton>
@@ -49,15 +48,15 @@
 
 
 
-             <MudDialog @bind-IsVisible="visible" Options="dialogOptions">
-                 <DialogContent>
+        <MudDialog @bind-IsVisible="visible" Options="dialogOptions">
+            <DialogContent>
                 <MudIconButton Icon="@Icons.Material.Filled.Cancel" Style=" text-align: centemar; margin-left:92%" OnClick="cancel" Size="Size.Large" Color="Color.Error"></MudIconButton>
                 <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Department Registration</MudText>
                      <MudForm @ref="form">
 
-                         <MudGrid>
+                    <MudGrid>
 
-                             <MudItem md="12" xs="12" sm=12 lg="12">
+                        <MudItem md="12" xs="12" sm=12 lg="12">
 
                                  <MudTextField Label="Department Name" T="string" @bind-Value="department.DeptName" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter the Department Name!"></MudTextField>
                              </MudItem>
@@ -70,17 +69,17 @@
                              </MudItem>
                          </MudGrid>
 
-                         <br />
-                         <MudCardActions Style="justify-content:center">
-                             <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-4 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
-                         </MudCardActions>
-                         
-                     </MudForm>
+                    <br />
+                    <MudCardActions Style="justify-content:center">
+                        <MudButton Variant="Variant.Filled" Style="border-radius: 8px; width:90%;" Class="mt-4 mb-4 ml-5" Color="Color.Success" OnClick="Submit">Submit</MudButton>
+                    </MudCardActions>
+
+                </MudForm>
 
 
-                 </DialogContent>
-               
-             </MudDialog>            
+            </DialogContent>
+
+        </MudDialog>
 
     </MudCardContent>
 </MudCard>
@@ -88,7 +87,7 @@
 
 @code {
     MudForm form = new MudForm();
-    private bool visible;  
+    private bool visible;
     private bool Disable = false;
     private bool Disable2 = true;
     private DialogOptions dialogOptions = new() { FullWidth = true };
@@ -109,17 +108,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
+        departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("/api/Department");
+        // try
+        // {
+        //     departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("Department");
+        // }
+        // catch(Exception ex)
+        // {
+        //     Snackbar.Add(ex.Message.ToString().Replace("'", ""), Severity.Warning);
+        // }
 
-            departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("Department");
-
-        }
-        catch(Exception ex)
-        {
-            Snackbar.Add(ex.Message.ToString().Replace("'", ""), Severity.Warning);
-        }
-            
+       
+       
     }
 
 
@@ -165,24 +165,24 @@
         visible = true;
         StateHasChanged();
 
-    }
+        }
 
-    public void active()
-    {
-        Disable = true;
-    }
+        public void active()
+        {
+            Disable = true;
+        }
 
-    public void deactive()
-    {
-        Disable2 = false;
-    }
+        public void deactive()
+        {
+            Disable2 = false;
+        }
 
 
 
-    public async Task<IEnumerable<string>> getDepartment(string value)
-    {
+        public async Task<IEnumerable<string>> getDepartment(string value)
+        {
 
-        await Task.Delay(5);
+            await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
@@ -192,10 +192,10 @@
 
 
 
-    private async Task<IEnumerable<Tbl_DepartmentMaster>> Search1(string value)
-    {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
+        public async Task<IEnumerable<Tbl_DepartmentMaster>> Search1(string value)
+        {
+            // In real life use an asynchronous function for fetching data from an api.
+            await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
@@ -203,11 +203,11 @@
         return departments.Where(x => x.DeptName.Contains(value));
     }
 
-    private bool Email(String val)
-    {
-        Regex regex = new Regex("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
-        return regex.IsMatch(val ?? "valid");
-    }
+        private bool Email(String val)
+        {
+            Regex regex = new Regex("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+            return regex.IsMatch(val ?? "valid");
+        }
 
 
 

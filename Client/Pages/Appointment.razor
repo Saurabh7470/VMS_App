@@ -30,9 +30,9 @@
                      <MudTextField @bind-Value="appointment.Location" Label="Location" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Enter Location"></MudTextField>
                  </MudItem>
                  <MudItem xs="6" sm="6" md="6" lg="6">
-                     <MudSelect T="int?" @bind-Value="appointment.Accesory" Label="Accessories" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
-                         <MudSelectItem T="int" Value="@(1)">Yes</MudSelectItem>
-                         <MudSelectItem T="int" Value="@(0)">No</MudSelectItem>
+                     <MudSelect T="int" @bind-Value="appointment.Accesory" Label="Accessories" Margin="Margin.Dense" Variant="Variant.Outlined" Required RequiredError="Please Select one Documnet">
+                         <MudSelectItem T="int" Value="1">Yes</MudSelectItem>
+                         <MudSelectItem T="int" Value="0">No</MudSelectItem>
                      </MudSelect>
                  </MudItem>
                  @if (appointment.Accesory > 0)

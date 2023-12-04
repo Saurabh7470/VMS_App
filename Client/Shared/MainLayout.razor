@@ -53,11 +53,6 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var AuthenticateUser = await jsruntime.InvokeAsync<string>("sessionStorage.getItem", "AuthenticatedUser");
-        if (!string.IsNullOrEmpty(AuthenticateUser))
-        {
-            Login.AuthenticatedUser = JsonConvert.DeserializeObject<Tbl_user>(AuthenticateUser);
-        }
 
         if(Login.AuthenticatedUser == null)
         {

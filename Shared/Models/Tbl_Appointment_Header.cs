@@ -29,7 +29,7 @@ namespace VMS_App.Shared.Models
 
         public int? Status { get; set; }
 
-        public int? Accesory { get; set; }
+        public int Accesory { get; set; }
 
         public DateTime? SaftyClearence { get; set; }
 
