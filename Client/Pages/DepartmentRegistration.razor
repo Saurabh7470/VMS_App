@@ -2,6 +2,7 @@
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
 @inject NavigationManager navigate
+@inject ISnackbar Snackbar
 
 
 <MudCard Elevation="4" Outlined Class="m-2">
@@ -22,9 +23,9 @@
 
              <MudDataGrid Items="departments">
                  <Columns>
-                   
-                     <PropertyColumn Property="x => x.DepartmentName" />
-                     <PropertyColumn Property="x => x.HOD" Title="HOD" />
+                     <PropertyColumn Property="x => x.DeptName" />
+                     <PropertyColumn Property="x => x.Hod" Title="HOD" />
+             
                      <TemplateColumn CellClass="d-flex justify-end" Title="Action">
                          <CellTemplate>
                              <MudStack Row>
@@ -41,7 +42,7 @@
                             </MudStack>                          
                          </CellTemplate>
                      </TemplateColumn>
-                 </Columns>
+                </Columns>
              </MudDataGrid>
              </MudForm>
 
@@ -51,19 +52,20 @@
              <MudDialog @bind-IsVisible="visible" Options="dialogOptions">
                  <DialogContent>
                 <MudIconButton Icon="@Icons.Material.Filled.Cancel" Style=" text-align: centemar; margin-left:92%" OnClick="cancel" Size="Size.Large" Color="Color.Error"></MudIconButton>
+                <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Department Registration</MudText>
                      <MudForm @ref="form">
 
                          <MudGrid>
 
                              <MudItem md="12" xs="12" sm=12 lg="12">
 
-                                 <MudTextField Label="Department Name" T="string" @bind-Value="department.DepartmentName" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter the Department Name!"></MudTextField>
+                                 <MudTextField Label="Department Name" T="string" @bind-Value="department.DeptName" Variant="Variant.Outlined" Margin="Margin.Dense" Required="true" RequiredError="Please Enter the Department Name!"></MudTextField>
                              </MudItem>
-
+                            
                              <MudItem md="12" xs="12" sm=12 lg="12">
 
-                                 <MudAutocomplete T="string" Label="HOD" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="department.HOD" SearchFunc="@getDepartment" ToStringFunc="@(x=> x)" Required="true" RequiredError="Please Select the Department!">
-
+                                 <MudAutocomplete T="string" Label="HOD" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="department.Hod" SearchFunc="getDepartment" ToStringFunc="@(x=> x)" Required="true" RequiredError="Please Select the Department!">
+                                     
                                  </MudAutocomplete>
                              </MudItem>
                          </MudGrid>
@@ -100,18 +102,23 @@
     Tbl_DepartmentMaster department = new Tbl_DepartmentMaster();
     Tbl_DepartmentMaster selectedDepartment = new Tbl_DepartmentMaster();
 
+
     List<string> HOD;
 
 
 
     protected async override Task OnInitializedAsync()
     {
+        try
+        {
+            departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("Department");
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message.ToString().Replace("'", ""), Severity.Warning);
+        }
 
-        // HOD = new List<string> { "DEVELOPER", "PM", "JD" };
-
-         departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("api/Department");
-        // departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT" , HOD="DEVLOPER"});
-        // departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD="JD" });
+       
        
     }
 
@@ -146,42 +153,11 @@
         await form.Validate();
         if (form.IsValid)
         {
-        //     if (department.Id == null)
-        //     {
-
-
-        //         departments.Add(new Tbl_DepartmentMaster()
-        //             {
-
-        //                  // Id = departments.Count() + 1,
-        //                  DepartmentCode = (departments.Count() + 100).ToString(),
-        //                 DepartmentName = department.DepartmentName,
-        //                 HOD = department.HOD
-        //             });
-        // }
-        //     else
-        //     {
-
-        //         var item = departments.Find(a => a.Id == department.Id);
-
-        //         if (item != null)
-        //         {
-        //             departments.Remove(item);
-        //             departments.Add(new Tbl_DepartmentMaster()
-        //             {
-        //                    Id = item.Id,
-        //                    DepartmentCode = (departments.Count() + 100).ToString(),
-        //                   DepartmentName = department.DepartmentName,
-        //                   HOD = department.HOD
-        //         });
-        //         }
-        //     }
-        //     // await form.ResetAsync();
-        //     visible = false;
-        //     StateHasChanged();
+              
         }
+    }
 
-    private void Edit(Tbl_DepartmentMaster item)
+    public void Edit(Tbl_DepartmentMaster item)
     {
 
         department = item;
@@ -209,9 +185,9 @@
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
+        if (value != null)
             return HOD;
-        return HOD.Where(x => x.Contains(value));
+        return HOD.Where(x => x.Equals(value));
     }
 
 
@@ -224,7 +200,7 @@
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
             return departments;
-        return departments.Where(x => x.DepartmentName.Contains(value));
+        return departments.Where(x => x.DeptName.Contains(value));
     }
 
     private bool Email(String val)
@@ -236,6 +212,6 @@
 
 
 }
-}
+
   
 

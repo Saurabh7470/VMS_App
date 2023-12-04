@@ -1,9 +1,11 @@
 ﻿@page "/EmpForm"
+@using System.Text.Json
 @using VMS_App.Shared.Models;
 @using System.Text.RegularExpressions;
 @inject NavigationManager navigate
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
+@inject IHttpService https
 
 <MudCard Elevation="4" Outlined Class="m-2">
     <MudCardHeader>
@@ -66,6 +68,7 @@
 
                 <DialogContent>
                     <MudIconButton Icon="@Icons.Material.Filled.Cancel" Style=" text-align: centemar; margin-left:92%" OnClick="cancel" Size="@Size.Large" Variant="@Variant.Text" Color="@Color.Error"></MudIconButton>
+                    <MudText Typo="Typo.h5" Style="text-align:center; font-family:Arial" Class="mb-3" Color="Color.Dark">Employee Registration</MudText>
                      <MudForm @ref="form" >
                          <MudGrid>
                              <MudItem md="12" xs="12" sm=12 lg="12">
@@ -90,13 +93,13 @@
                          
                              <MudItem md="12" xs="12" sm=12 lg="12">
 
-                                 <MudAutocomplete T="Tbl_DepartmentMaster" Label="Department Id" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="selectedDepartment" SearchFunc="@getDepartment" ToStringFunc="@(x=> x.DeptCode)" Required="true" RequiredError="Please Select the Department!">
-
-                                 </MudAutocomplete>
+                                 <MudAutocomplete T="Tbl_EmployeeMaster" Label="Department Id"  SearchFunc="@(x=> getDepartment(x))" ToStringFunc="@(x => x.DeptCode)"
+                                                  Margin="Margin.Dense" Variant="Variant.Outlined" Required="true" RequiredError="Please Select the Department!" />
+                                
                              </MudItem>
                              <MudItem md="12" xs="12" sm=12 lg="12">
 
-                                 <MudAutocomplete T="string" Label="Grade" Margin=Margin.Dense Variant="Variant.Outlined" @bind-Value="employee.Grade" SearchFunc="@getGrade" ToStringFunc="@(x=> x )" Required="true" RequiredError="Please Select the Grade!"></MudAutocomplete>
+                                 <MudAutocomplete T="Tbl_EmployeeMaster" Label="Grade"  Margin=Margin.Dense Variant="Variant.Outlined" SearchFunc="@(x=> getGrade(x))" ToStringFunc="(x=> x.Grade )" Required="true" RequiredError="Please Select the Grade!" />
 
                              </MudItem>
                         
@@ -129,6 +132,8 @@
 </MudCard>
 
 
+
+
  @code {
     MudForm form = new MudForm();
     private bool visible;
@@ -151,6 +156,7 @@
 
 
     List<Tbl_EmployeeMaster> employees = new List<Tbl_EmployeeMaster>();
+    List<Tbl_EmployeeMaster> employeesddl = new List<Tbl_EmployeeMaster>();
     Tbl_EmployeeMaster employee = new Tbl_EmployeeMaster();
 
     Tbl_EmployeeMaster selectedId = new Tbl_EmployeeMaster();
@@ -165,23 +171,28 @@
     List<string> Designation;
     List<string> Grade;
 
-   
+
 
     protected async override Task OnInitializedAsync()
-
     {
-        // Designation = new List<string> { "DEVELOPER", "PM", "JD" };
-        // Grade = new List<string> { "A1", "A2","A3"  };
+        try
+        {
+            employees = await https.GetData<List<Tbl_EmployeeMaster>>("Employee");
+            //  var json1 = JsonSerializer.Serialize<List<Tbl_EmployeeMaster>>(employees);
+            // Snackbar.Add(json1, Severity.Warning);
 
+            employeesddl = await https.GetData<List<Tbl_EmployeeMaster>>("Department");
+             // var json = JsonSerializer.Serialize<List<Tbl_EmployeeMaster>>(employeesddl);
+             // Snackbar.Add(json, Severity.Warning);
 
-        // departments.Add(new Tbl_DepartmentMaster() { Id = 1, DepartmentCode = "101", DepartmentName = "IT", HOD = "1" });
-        // departments.Add(new Tbl_DepartmentMaster() { Id = 2, DepartmentCode = "102", DepartmentName = "Finance", HOD = "2" });
-        // departments.Add(new Tbl_DepartmentMaster() { Id = 3, DepartmentCode = "103", DepartmentName = "EDUCATION", HOD = "3" });
-        // departments.Add(new Tbl_DepartmentMaster() { Id = 4, DepartmentCode = "104", DepartmentName = "SALES", HOD = "4" });
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Warning);
+        }
+       
 
-
-        // employees.Add(new Tbl_EmployeeMaster() { Id = 1, Name = "Purnima", Email = "purnima@gmail.com", Mobile ="9179744670", DepartmentId ="0", Designation = "HOD", Grade= "M1", Status=1});
-        // employees.Add(new Tbl_EmployeeMaster() { Id = 2, Name = "Sneha", Email = "sneha@gmail.com", Mobile = "9691338727", DepartmentId = "1", Designation = "JD", Grade = "C1" , Status=0});
+       
 
     }
 
@@ -311,27 +322,26 @@
     
 
 
-    public async Task<IEnumerable<Tbl_DepartmentMaster>> getDepartment(string value){
+    public async Task<IEnumerable<Tbl_EmployeeMaster>> getDepartment(string value){
 
         await Task.Delay(5);
-
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return departments;
-        return departments.Where(x => x.DeptCode.Contains(value));
+            return employeesddl;
+        return employeesddl.Where(x=>x.DeptCode.Contains(value));
     }
 
 
 
-    private async Task<IEnumerable<Tbl_DepartmentMaster>> Search1(string value)
+    private async Task<IEnumerable<Tbl_EmployeeMaster>> Search1(string value)
     {
         // In real life use an asynchronous function for fetching data from an api.
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return departments;
-        return departments.Where(x => x.DeptName.Contains(value));
+            return employeesddl;
+        return employeesddl.Where(x => x.DeptCode.Contains(value));
     }
 
 
@@ -359,15 +369,15 @@
     }
 
 
-    public async Task<IEnumerable<string>> getGrade(string value)
+    public async Task<IEnumerable<Tbl_EmployeeMaster>> getGrade(string value)
     {
 
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return Grade ;
-        return  Grade.Where(x => x.Contains(value));
+            return employeesddl;
+        return employeesddl.Where(x => x.Grade.Contains(value));
 
     }
 
@@ -380,8 +390,8 @@
 
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
-            return employees;
-        return employees.Where(x => x.Grade.Contains(value));
+            return employeesddl;
+        return employeesddl.Where(x => x.Grade.Contains(value));
     }
 
 

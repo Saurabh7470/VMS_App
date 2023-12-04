@@ -28,7 +28,7 @@
                      </MudItem>
               
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                     <MudDatePicker Label="DateO Of Birth" @bind-Date="visitor.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Delect Date Of Birth"></MudDatePicker>
+                     <MudDatePicker  Label="DateO Of Birth" @bind-Date="visitor.Dbo" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Delect Date Of Birth"></MudDatePicker>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
@@ -101,9 +101,10 @@
                      <MudDivider Light DividerType="DividerType.FullWidth" />
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                     <MudAutocomplete T="Guid?" @bind-Value="visitor.IdType" Label="ID Type" SearchFunc="getId" ToStringFunc="@(x => x.IdType)" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable>
+                     <MudAutocomplete T="string"  @bind-Value="visitor.IdType" Label="ID Type" SearchFunc="@getId" ToStringFunc="@(x => x)" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable>
 
                      </MudAutocomplete>
+                     </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
                      <MudTextField @bind-Value="visitor.PersonalId" Label="ID Number" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
@@ -144,8 +145,9 @@
     Tbl_VisitorMaster visitor = new();
     List<Tbl_VisitorMaster> visitors = new();
 
-    Tbl_IdentityType User = new();
-    List<Tbl_IdentityType> Users = new();
+    Tbl_IdentityType identityType = new();
+    List<Tbl_IdentityType> identityTypes = new();
+    List<string> identityTyp;
 
     Tbl_IdentityType selectedId = new Tbl_IdentityType();
 
@@ -236,12 +238,12 @@
         //TODO upload the files to the server
     }
 
-    public async Task<IEnumerable<Tbl_IdentityType>> getId(String value)
+    public async Task<IEnumerable<string>> getId(String value)
     {
         await Task.Delay(5);
         if (string.IsNullOrEmpty(value))
-            return Users;
-        return Users.Where(x => x.Idtype.Contains(value));
+            return identityTyp;
+        return identityTyp.Where(x => x.Contains(value));
 
     }
 
