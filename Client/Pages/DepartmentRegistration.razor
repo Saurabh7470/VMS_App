@@ -29,8 +29,7 @@
                      <TemplateColumn CellClass="d-flex justify-end" Title="Action">
                          <CellTemplate>
                              <MudStack Row>
-
-                                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=> Edit(context.Item.Id))" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Primary"></MudIconButton>
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=> Edit(context.Item))" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Primary"></MudIconButton>
                                 @if (employee.Status == 1)
                                 {
                                     <MudIconButton Icon="@Icons.Material.Filled.CheckCircle" OnClick="active" Size="@Size.Small" Variant="@Variant.Text" Color="@Color.Success" Disabled="@Disable"></MudIconButton>
@@ -109,14 +108,15 @@
 
     protected async override Task OnInitializedAsync()
     {
-        try
-        {
-            departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("Department");
-        }
-        catch(Exception ex)
-        {
-            Snackbar.Add(ex.Message.ToString().Replace("'", ""), Severity.Warning);
-        }
+        departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("/api/Department");
+        // try
+        // {
+        //     departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("Department");
+        // }
+        // catch(Exception ex)
+        // {
+        //     Snackbar.Add(ex.Message.ToString().Replace("'", ""), Severity.Warning);
+        // }
 
        
        

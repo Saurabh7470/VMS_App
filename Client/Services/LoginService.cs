@@ -9,7 +9,6 @@ namespace VMS_App.Client.LoginService
 {
     public class LoginService
     {
-        private static readonly string UserKey = "AuthenticatedKet";
 
         private static List<Tbl_user> Users = new List<Tbl_user>
         {
@@ -20,21 +19,12 @@ namespace VMS_App.Client.LoginService
 
         public Tbl_user AuthenticatedUser { get; set; }
 
-        private readonly IJSRuntime runtime;
-        
-        public LoginService(IJSRuntime runtime)
-        {
-            this.runtime = runtime;
-        }
-
         public bool ValidUser(string Username, string Password)
         {
             var User = Users.FirstOrDefault(u => u.Username == Username && u.Password == Password);
             if (User != null)
             {
                 AuthenticatedUser = User;
-
-                runtime.InvokeVoidAsync("sessionStorage.setItem", UserKey, JsonConvert.SerializeObject(User));
                 return true;
             }
             return false;
@@ -43,9 +33,6 @@ namespace VMS_App.Client.LoginService
         public void Logout()
         {
             AuthenticatedUser.Equals(null);
-
-            runtime.InvokeVoidAsync("sessionStorage.removeItem", UserKey);
-         
         }
 
     }

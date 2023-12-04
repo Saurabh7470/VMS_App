@@ -206,12 +206,20 @@
 
     private async Task GetImageUrlAsync(InputFileChangeEventArgs files)
     {
-        var file = files.GetMultipleFiles().FirstOrDefault();
-
-        if (file != null)
+        try
         {
-            imageUrl = await GetImageUrlAsync(file);
+            var file = files.GetMultipleFiles().FirstOrDefault();
+
+            if (file != null)
+            {
+                imageUrl = await GetImageUrlAsync(file);
+            }
         }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message.ToString(), Severity.Warning);
+        }
+
     }
     private async Task<string> GetImageUrlAsync(IBrowserFile image)
     {
@@ -229,13 +237,21 @@
 
     private async Task UploadFiles2(InputFileChangeEventArgs files)
     {
-        var file = files.GetMultipleFiles().FirstOrDefault();
-
-        if (file != null)
+        try
         {
-            Documnet = await GetImageUrlAsync(file);
+            var file = files.GetMultipleFiles().FirstOrDefault();
+
+            if (file != null)
+            {
+                Documnet = await GetImageUrlAsync(file);
+            }
+            //TODO upload the files to the server
         }
-        //TODO upload the files to the server
+        catch(Exception ex)
+        {
+            Snackbar.Add("File Size Must Be Lass Then 5 MB !.", Severity.Warning);   
+        }
+       
     }
 
     public async Task<IEnumerable<string>> getId(String value)
