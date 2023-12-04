@@ -17,7 +17,7 @@ namespace VMS_App.Shared.Models
 
         public string? DeptName { get; set; }
 
-        public Guid? Hod { get; set; }
+        public string Hod { get; set; }
 
         public int? DelFlag { get; set; }
 

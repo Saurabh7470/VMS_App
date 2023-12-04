@@ -26,7 +26,7 @@
 
              <MudDataGrid Items="identityTypes">
                  <Columns>
-                     <PropertyColumn Property="x => x.IdType" Title="IdType" />
+                     <PropertyColumn Property="x => x.Idtype" Title="IdType" />
                      <PropertyColumn Property="x => x.Description" />
 
                      <TemplateColumn CellClass="d-flex justify-end" Title="Action">
@@ -58,11 +58,12 @@
  <MudDialog @bind-IsVisible="visible" Options="dialogOptions">
      <DialogContent>
         <MudIconButton Icon="@Icons.Material.Filled.Cancel" Style=" text-align: centemar; margin-left:92%" OnClick="cancel" Size="@Size.Large" Variant="@Variant.Text" Color="@Color.Error"></MudIconButton>
+        <MudText Typo="Typo.h5" Style="text-align:center" Class="mb-3" Color="Color.Dark">Identity</MudText>
          <MudForm @ref="form">
              <MudGrid>
                  <MudItem md="12" xs="12" sm=12 lg="12">
 
-                     <MudAutocomplete T="string" Label="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="identityType.IdType" SearchFunc="@getId" ToStringFunc="@(x=> x)" Required="true" RequiredError="Please Select the IdType!">
+                     <MudAutocomplete T="string" Label="Id Type" Margin="Margin.Dense" Variant="Variant.Outlined" @bind-Value="identityType.Idtype" SearchFunc="@getId" ToStringFunc="@(x=> x)" Required="true" RequiredError="Please Select the IdType!">
 
                      </MudAutocomplete>
                  </MudItem>
@@ -117,8 +118,8 @@
 
         // IdType = new List<string> { "AadharCard", "VoterId" };
 
-        // identityTypes.Add(new Tbl_IdentityType() { Id = 1, Idtype = "AadharCard", Description = "Valid" });
-        // identityTypes.Add(new Tbl_IdentityType() { Id = 3, Idtype = "VoterId", Description = "Invalid" });
+        // identityTypes.Add(new Tbl_IdentityType() { Id = 1, IdType = "AadharCard", Description = "Valid" });
+        // identityTypes.Add(new Tbl_IdentityType() { Id = 3, IdType = "VoterId", Description = "Invalid" });
 
     }
 

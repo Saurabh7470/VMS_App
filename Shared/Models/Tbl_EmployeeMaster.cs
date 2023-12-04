@@ -39,5 +39,18 @@ namespace VMS_App.Shared.Models
 
         public string? UpdatedBy { get; set; }
 
+       
+
+        public string? DeptCode { get; set; }
+
+        public string? DeptName { get; set; }
+
+        public string? Hod { get; set; }
+
+       
+
+       
+
+
     }
 }

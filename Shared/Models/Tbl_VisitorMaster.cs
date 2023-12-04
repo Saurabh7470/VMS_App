@@ -26,7 +26,7 @@ namespace VMS_App.Shared.Models
 
         public string? Photograph { get; set; }
 
-        public Guid? IdType { get; set; }
+        public string IdType { get; set; }
 
         public string? PersonalId { get; set; }
 
