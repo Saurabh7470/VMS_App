@@ -115,10 +115,10 @@
     protected async override Task OnInitializedAsync()
     {
 
-        IdType = new List<string> { "AadharCard", "VoterId" };
+        // IdType = new List<string> { "AadharCard", "VoterId" };
 
-        identityTypes.Add(new Tbl_IdentityType() { Id = 1, IdType = "AadharCard", Description = "Valid" });
-        identityTypes.Add(new Tbl_IdentityType() { Id = 3, IdType = "VoterId", Description = "Invalid" });
+        // identityTypes.Add(new Tbl_IdentityType() { Id = 1, Idtype = "AadharCard", Description = "Valid" });
+        // identityTypes.Add(new Tbl_IdentityType() { Id = 3, Idtype = "VoterId", Description = "Invalid" });
 
     }
 
@@ -185,7 +185,7 @@
         // if text is null or empty, show complete list
         if (string.IsNullOrEmpty(value))
             return identityTypes;
-        return identityTypes.Where(x => x.IdType.Contains(value));
+        return identityTypes.Where(x => x.Idtype.Contains(value));
     }
 
 

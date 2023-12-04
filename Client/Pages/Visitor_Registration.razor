@@ -28,7 +28,7 @@
                      </MudItem>
               
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                     <MudDatePicker Label="DateO Of Birth" @bind-Date="visitor.DBO" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Delect Date Of Birth"></MudDatePicker>
+                     <MudDatePicker Label="DateO Of Birth" @bind-Date="visitor.Dbo" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Delect Date Of Birth"></MudDatePicker>
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
@@ -101,9 +101,10 @@
                      <MudDivider Light DividerType="DividerType.FullWidth" />
                  </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
-                     <MudAutocomplete T="Guid?" @bind-Value="visitor.IdType" Label="ID Type" SearchFunc="getId" ToStringFunc="@(x => x.IdType)" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable>
+                     <MudAutocomplete T="Tbl_IdentityType" @bind-Value="selectedId" Label="ID Type" SearchFunc="getId" ToStringFunc="@(x => x.Idtype)" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable>
 
                      </MudAutocomplete>
+                     </MudItem>
                  <MudItem xs="12" sm="12" md="6" lg="6">
 
                      <MudTextField @bind-Value="visitor.PersonalId" Label="ID Number" Variant="Variant.Outlined" Margin="Margin.Dense" Required RequiredError="Please Enter Id Number"></MudTextField>
