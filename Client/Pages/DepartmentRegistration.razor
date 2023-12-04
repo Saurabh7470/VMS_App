@@ -107,19 +107,19 @@
 
 
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
+
             departments = await httpServices.GetData<List<Tbl_DepartmentMaster>>("Department");
+
         }
         catch(Exception ex)
         {
             Snackbar.Add(ex.Message.ToString().Replace("'", ""), Severity.Warning);
         }
-
-       
-       
+            
     }
 
 
@@ -185,7 +185,7 @@
         await Task.Delay(5);
 
         // if text is null or empty, show complete list
-        if (value != null)
+        if (string.IsNullOrEmpty(value))
             return HOD;
         return HOD.Where(x => x.Equals(value));
     }

@@ -179,9 +179,10 @@
         {
             employees = await https.GetData<List<Tbl_EmployeeMaster>>("Employee");
             //  var json1 = JsonSerializer.Serialize<List<Tbl_EmployeeMaster>>(employees);
-            // Snackbar.Add(json1, Severity.Warning);
+             // Snackbar.Add(json1, Severity.Warning);
+           
 
-            employeesddl = await https.GetData<List<Tbl_EmployeeMaster>>("Department");
+             employeesddl = await https.GetData<List<Tbl_EmployeeMaster>>("Department");
              // var json = JsonSerializer.Serialize<List<Tbl_EmployeeMaster>>(employeesddl);
              // Snackbar.Add(json, Severity.Warning);
 
@@ -191,9 +192,6 @@
             Snackbar.Add(ex.Message, Severity.Warning);
         }
        
-
-       
-
     }
 
 
